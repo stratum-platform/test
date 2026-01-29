@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Archstone — Настройки платформы</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <style>
+    .tab-bar {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .tab {
+      padding: 1rem 1.5rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tab.active {
+      color: var(--gray-900);
+      font-weight: 600;
+      border-bottom: 3px solid var(--accent);
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.75rem 0 1rem;
+    }
+    .access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .access-card, .module-card, .user-card, .api-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: all 0.18s;
+    }
+    .access-card:hover, .module-card:hover, .user-card:hover, .api-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 6px 16px rgba(16,185,129,0.1);
+    }
+    .status-badge {
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+    .status-active  { background: #ecfdf5; color: #059669; }
+    .status-warning { background: #fffbeb; color: #d97706; }
+    .status-inactive{ background: #fef2f2; color: #dc2626; }
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 0;
+      border-top: 1px solid var(--gray-100);
+    }
+    .toggle-row:first-child { border-top: none; }
+    .key-box {
+      background: var(--gray-50);
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+      margin: 0.75rem 0;
+    }
+    table.settings-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.settings-table th,
+    table.settings-table td {
+      padding: 0.9rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    table.settings-table th {
+      background: var(--gray-50);
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+    .btn-small {
+      padding: 0.4rem 1rem;
+      font-size: 0.875rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+<aside class="sidebar" id="sidebar">
+  <button class="toggle-sidebar-btn" title="Свернуть/развернуть">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+
+  <div class="profile-block">
+    <div class="profile-avatar" style="background-image: url('assets/img/user-avatar.jpg');"></div>
+    <div class="nav-text logo-text">Archstone</div>
+  </div>
+
+  <nav class="mt-6">
+    <a href="index.html" class="nav-item" data-label="Начальная страница">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span class="nav-label">Начальная страница</span>
+    </a>
+
+    <a href="profile.html" class="nav-item active" data-label="Личный кабинет">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span class="nav-label">Личный кабинет</span>
+    </a>
+
+    <a href="knowledge-base.html" class="nav-item" data-label="База знаний">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>
+      </svg>
+      <span class="nav-label">База знаний</span>
+    </a>
+
+    <a href="tasks.html" class="nav-item" data-label="Задачи">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 11l3 3L22 4"/>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+      <span class="nav-label">Задачи</span>
+    </a>
+
+    <a href="billing.html" class="nav-item" data-label="Счета">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M7 15h1M7 11h1M16 15h1M16 11h1"/>
+      </svg>
+      <span class="nav-label">Счета</span>
+    </a>
+
+    <div class="my-6 border-t border-white/15"></div>
+
+    <a href="settings.html" class="nav-item" data-label="Настройки платформы">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      <span class="nav-label">Настройки платформы</span>
+    </a>
+  </nav>
+</aside>
+
+<div class="main-content">
+
+  <header class="header">
+    <button class="menu-toggle">☰</button>
+    <h1>Настройка платформы</h1>
+
+    <div style="display:flex; align-items:center; gap:1.25rem;">
+      <input type="search" placeholder="Поиск по модулям..." style="width:15rem; padding:0.5rem 1rem; border:1px solid var(--gray-300); border-radius:6px;">
+
+      <div style="position:relative; cursor:pointer;">
+        <span style="font-size:1.5rem;">🔔</span>
+        <span style="position:absolute; top:-0.4rem; right:-0.4rem; background:var(--red-500); color:white; font-size:0.65rem; font-weight:bold; padding:0.1rem 0.4rem; border-radius:999px;">3</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:0.75rem; cursor:pointer;">
+        <div style="width:2.5rem; height:2.5rem; background:#3b82f6; border-radius:999px; color:white; font-weight:600; display:flex; align-items:center; justify-content:center;"><div class="profile-avatar" style="background-image: url('assets/img/ava.jpg');"></div></div>
+        <div>
+          <div style="font-weight:500;">Александр Бобров</div>
+          <div style="font-size:0.875rem; color:var(--gray-500);">Администратор</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Табы -->
+  <div class="tab-bar">
+    <div class="px-6 flex gap-2 overflow-x-auto pb-1">
+      <div class="tab active"      data-tab="company">Моя компания</div>
+      <div class="tab"             data-tab="modules">Модули и лицензии</div>
+      <div class="tab"             data-tab="users">Пользователи и роли</div>
+      <div class="tab"             data-tab="security">Безопасность · API</div>
+      <div class="tab"             data-tab="integrations">Интеграции</div>
+    </div>
+  </div>
+
+  <div class="p-6">
+
+    <!-- 1. Моя компания -->
+    <div id="tab-company" class="tab-content">
+<div class="card mb-6">
+        <h2 class="section-title">Структура компании</h2>
+        
+        <div style="margin:1.5rem 0;">
+          <div class="font-medium mb-2">Головная организация</div>
+          <div style="padding:0.75rem 1rem; background:var(--gray-50); border-radius:8px; border:1px solid var(--gray-200);">
+            Archstone B.V. <span style="color:var(--gray-500); font-size:0.9rem; margin-left:1rem;">(основная учётная запись)</span>
+          </div>
+        </div>
+
+        <div class="section-title">Отделы и подразделения</div>
+        
+        <div class="dept-tree">
+          <div class="toggle-row">
+            <div>Руководство</div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          
+          <div class="toggle-row">
+            <div>Отдел продаж</div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          
+          <div class="toggle-row">
+            <div>Маркетинг</div>
+            <label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+          
+          <div class="toggle-row">
+            <div>Разработка</div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          
+          <div class="toggle-row">
+            <div>→ Frontend команда</div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          
+          <div class="toggle-row">
+            <div>→ Backend команда</div>
+            <label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+        </div>
+
+        <button class="mt-4 px-4 py-2 bg-accent text-white rounded-lg text-sm font-medium">
+          + Добавить отдел / подразделение
+        </button>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Доступ к модулям по отделам</h2>
+        
+        <div class="access-grid">
+          <div class="access-card">
+            <div class="access-header">
+              <div class="module-name">База знаний</div>
+              <span class="status-badge status-active">Включён</span>
+            </div>
+            <div class="toggle-row"><div>Руководство</div><label class="toggle-switch"><input type="checkbox" checked></label></div>
+            <div class="toggle-row"><div>Продажи</div>     <label class="toggle-switch"><input type="checkbox" checked></label></div>
+            <div class="toggle-row"><div>Маркетинг</div>   <label class="toggle-switch"><input type="checkbox" checked></label></div>
+            <div class="toggle-row"><div>Разработка</div>  <label class="toggle-switch"><input type="checkbox" checked></label></div>
+          </div>
+
+          <div class="access-card">
+            <div class="access-header">
+              <div class="module-name">Задачи и поручения</div>
+              <span class="status-badge status-active">Включён</span>
+            </div>
+            <div class="toggle-row"><div>Руководство</div><label class="toggle-switch"><input type="checkbox" checked></label></div>
+            <div class="toggle-row"><div>Продажи</div>     <label class="toggle-switch"><input type="checkbox" checked></label></div>
+            <div class="toggle-row"><div>Маркетинг</div>   <label class="toggle-switch"><input type="checkbox"></label></div>
+            <div class="toggle-row"><div>Разработка</div>  <label class="toggle-switch"><input type="checkbox" checked></label></div>
+          </div>
+
+          <div class="access-card">
+            <div class="access-header">
+              <div class="module-name">Опросы и оценки</div>
+              <span class="status-badge status-disabled">Отключён</span>
+            </div>
+            <div style="text-align:center; color:var(--gray-500); padding:2rem 0;">
+              Модуль не активирован<br>
+              <button class="mt-3 px-4 py-1.5 bg-yellow-100 text-yellow-800 rounded text-sm">
+                Активировать в биллинге →
+              </button>
+            </div>
+          </div>
+
+          <!-- можно добавить ещё карточки модулей -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 2. Модули и лицензии -->
+    <div id="tab-modules" class="tab-content" style="display:none;">
+      <div class="card">
+        <h2 class="section-title">Активные модули и подписки</h2>
+        
+        <table class="settings-table">
+          <thead>
+            <tr>
+              <th>Модуль</th>
+              <th>Версия</th>
+              <th>Статус</th>
+              <th>Лицензия</th>
+              <th>До</th>
+              <th>Стоимость</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>База знаний</td>
+              <td>1.4.2</td>
+              <td><span class="status-badge status-active">Активен</span></td>
+              <td>Business</td>
+              <td>18 января 2027</td>
+              <td>500 ₽ / мес</td>
+              <td><button class="btn-small bg-accent/10 text-accent">Продлить</button></td>
+            </tr>
+            <tr>
+              <td>Задачи и поручения</td>
+              <td>2.1.0</td>
+              <td><span class="status-badge status-active">Активен</span></td>
+              <td>Business</td>
+              <td>18 января 2027</td>
+              <td>750 ₽ / мес</td>
+              <td><button class="btn-small bg-accent/10 text-accent">Продлить</button></td>
+            </tr>
+            <tr>
+              <td>Опросы и оценки</td>
+              <td>—</td>
+              <td><span class="status-badge status-inactive">Неактивен</span></td>
+              <td>—</td>
+              <td>—</td>
+              <td>300 ₽ / мес</td>
+              <td><button class="btn-small bg-yellow-100 text-yellow-800">Активировать</button></td>
+            </tr>
+            <tr>
+              <td>Встроенный мессенджер</td>
+              <td>1.0.3 beta</td>
+              <td><span class="status-badge status-warning">Пробный период</span></td>
+              <td>Trial (14 дней)</td>
+              <td>12 февраля 2026</td>
+              <td>420 ₽ / мес после</td>
+              <td><button class="btn-small bg-accent/10 text-accent">Продлить</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <h3 style="font-weight:600; margin-bottom:1rem;">Доступные модули</h3>
+          <button class="px-5 py-2.5 bg-gray-800 text-white rounded-lg text-sm font-medium">
+            Перейти в магазин модулей →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Пользователи и роли -->
+    <div id="tab-users" class="tab-content" style="display:none;">
+      <div class="card">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="section-title" style="margin:0;">Пользователи</h2>
+          <button class="px-5 py-2.5 bg-accent text-white rounded-lg text-sm font-medium">
+            + Пригласить пользователя
+          </button>
+        </div>
+
+        <input type="text" placeholder="Поиск по имени, email, роли..." class="w-full max-w-lg px-4 py-2.5 border border-gray-300 rounded-lg mb-6">
+
+        <table class="settings-table">
+          <thead>
+            <tr>
+              <th>Имя</th>
+              <th>Email</th>
+              <th>Роль</th>
+              <th>Последний вход</th>
+              <th>Статус</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Владислав</td>
+              <td>vlad@company.com</td>
+              <td>Владелец</td>
+              <td>5 минут назад</td>
+              <td><span class="status-badge status-active">Активен</span></td>
+              <td><a href="#" class="text-accent text-sm">Редактировать</a></td>
+            </tr>
+            <tr>
+              <td>Анастасия К.</td>
+              <td>anna@company.com</td>
+              <td>HR-менеджер</td>
+              <td>2 часа назад</td>
+              <td><span class="status-badge status-active">Активен</span></td>
+              <td><a href="#" class="text-accent text-sm">Редактировать</a></td>
+            </tr>
+            <tr>
+              <td>Игорь С.</td>
+              <td>igor@company.com</td>
+              <td>Разработчик</td>
+              <td>3 дня назад</td>
+              <td><span class="status-badge status-warning">Неактивен 3 дня</span></td>
+              <td><a href="#" class="text-accent text-sm">Редактировать</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="mt-10 pt-6 border-t">
+          <h3 class="section-title" style="margin-top:0;">Роли и разрешения</h3>
+          <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <div class="px-5 py-3 bg-gray-50 rounded-lg border border-gray-200 min-w-[220px]">
+              <div style="font-weight:600; margin-bottom:0.5rem;">Владелец</div>
+              <div style="font-size:0.9rem; color:var(--gray-600);">Полный доступ ко всем настройкам</div>
+            </div>
+            <div class="px-5 py-3 bg-gray-50 rounded-lg border border-gray-200 min-w-[220px]">
+              <div style="font-weight:600; margin-bottom:0.5rem;">Администратор</div>
+              <div style="font-size:0.9rem; color:var(--gray-600);">Управление пользователями, модулями</div>
+            </div>
+            <div class="px-5 py-3 bg-gray-50 rounded-lg border border-gray-200 min-w-[220px]">
+              <div style="font-weight:600; margin-bottom:0.5rem;">Менеджер</div>
+              <div style="font-size:0.9rem; color:var(--gray-600);">Доступ к задачам и отчётам</div>
+            </div>
+          </div>
+          <button class="mt-6 px-5 py-2.5 bg-gray-800 text-white rounded-lg text-sm font-medium">
+            + Создать новую роль
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Безопасность · API -->
+    <div id="tab-security" class="tab-content" style="display:none;">
+      <div class="card mb-6">
+        <h2 class="section-title">Безопасность аккаунта</h2>
+        <div style="max-width:480px;">
+          <div class="toggle-row"><div>Двухфакторная аутентификация</div><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="toggle-row"><div>Вход только с доверенных устройств</div><label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label></div>
+          <div class="toggle-row"><div>Уведомления о входе</div><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">API ключи</h2>
+        <p style="color:var(--gray-600); margin-bottom:1.5rem;">Используйте ключи для интеграций и кастомных модулей.</p>
+
+        <div class="api-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <div style="font-weight:600;">Production ключ</div>
+            <div>
+              <button class="btn-small bg-gray-200 text-gray-800 mr-2">Скопировать</button>
+              <button class="btn-small bg-red-50 text-red-700">Отозвать</button>
+            </div>
+          </div>
+          <div class="key-box">sk_live_51N4BcjSH2...</div>
+          <div style="font-size:0.875rem; color:var(--gray-500);">Создан: 12 окт 2025 · Последнее использование: 28 янв 2026</div>
+        </div>
+
+        <button class="mt-6 px-5 py-2.5 bg-accent text-white rounded-lg text-sm font-medium">
+          + Создать новый API-ключ
+        </button>
+
+        <div class="mt-10 pt-6 border-t">
+          <h3 style="font-weight:600; margin-bottom:1rem;">Webhook-и</h3>
+          <button class="px-5 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm">
+            + Добавить webhook
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Интеграции -->
+    <div id="tab-integrations" class="tab-content" style="display:none;">
+      <div class="card">
+        <h2 class="section-title">Подключённые интеграции</h2>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.5rem; margin:1.5rem 0;">
+          <div class="access-card">
+            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+              <div style="width:48px; height:48px; background:#f97316; border-radius:10px; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem;">S</div>
+              <div>
+                <div style="font-weight:600;">Корпоративный мессенджер</div>
+                <div style="font-size:0.875rem; color:var(--gray-500);">Уведомления в канал</div>
+              </div>
+            </div>
+            <div class="toggle-row"><div>Уведомления о задачах</div><label class="toggle-switch"><input type="checkbox" checked></label></div>
+            <div class="toggle-row"><div>Уведомления о сообщениях</div><label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label></div>
+          </div>
+
+          <div class="access-card">
+            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+              <div style="width:48px; height:48px; background:#0ea5e9; border-radius:10px; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem;">G</div>
+              <div>
+                <div style="font-weight:600;">Google</div>
+                <div style="font-size:0.875rem; color:var(--gray-500);">Синхронизация пользователей</div>
+              </div>
+            </div>
+            <div style="color:var(--accent); font-weight:500; margin:1rem 0;">Подключено</div>
+            <button class="btn-small bg-red-50 text-red-700">Отключить</button>
+          </div>
+
+          <div class="access-card" style="opacity:0.6;">
+            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+              <div style="width:48px; height:48px; background:#8b5cf6; border-radius:10px; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem;">T</div>
+              <div>
+                <div style="font-weight:600;">Telegram</div>
+                <div style="font-size:0.875rem; color:var(--gray-500);">Бот-уведомления</div>
+              </div>
+            </div>
+            <button class="mt-4 px-5 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm w-full">
+              Подключить
+            </button>
+          </div>
+        </div>
+
+        <button class="px-6 py-3 bg-gray-800 text-white rounded-lg font-medium">
+          + Добавить новую интеграцию
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer style="background:white; padding:1.25rem; text-align:center; color:var(--gray-500); font-size:0.875rem; border-top:1px solid var(--gray-200);">
+    © 2026 Archstone. Версия 1.0. Поддержка: support@archstone.com
+  </footer>
+
+</div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+// Переключение табов
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      contents.forEach(c => c.style.display = 'none');
+      document.getElementById(`tab-${tab.dataset.tab}`).style.display = 'block';
+    });
+  });
+});
+</script>
+
+</body>
+</html>
