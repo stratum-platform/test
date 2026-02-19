@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archstone — Главная базы знаний</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/knowledge.css">
+  <style>
+    /* Дополнительные стили для главной страницы знаний */
+    .welcome-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .welcome-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .welcome-card p {
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: #f0f7ff;
+      color: #3498db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .stat-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-info p {
+      color: #6c757d;
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2rem 0 1rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.3rem;
+      color: #2c3e50;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .quick-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      color: #495057;
+      transition: all 0.2s;
+    }
+
+    .quick-action-btn:hover {
+      background: #f8f9fa;
+      transform: translateY(-2px);
+    }
+
+    .quick-action-btn.primary {
+      background: #3498db;
+      color: white;
+      border: none;
+    }
+
+    .quick-action-btn.primary:hover {
+      background: #2980b9;
+    }
+
+    .activity-list {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6c757d;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-content p {
+      margin-bottom: 0.2rem;
+    }
+
+    .activity-time {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+
+    .department-badge {
+      background: #e3f2fd;
+      color: #3498db;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .knowledge-main.home {
+      max-height: none;
+      overflow-y: visible;
+    }
+
+    .two-column-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .two-column-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Сайдбар (такой же, как в knowledge-base.html) -->
+  <aside class="sidebar" id="sidebar">
+    <button class="toggle-sidebar-btn" title="Свернуть/развернуть">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <div class="profile-block">
+      <div class="profile-avatar" style="background-image: url('assets/img/user-avatar.jpg');"></div>
+      <div class="nav-text logo-text">Archstone</div>
+    </div>
+
+    <nav class="mt-6">
+      <a href="#" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-label">Начальная страница</span>
+      </a>
+
+      <a href="profile.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-label">Личный кабинет</span>
+      </a>
+
+      <a href="knowledge-home.html" class="nav-item active">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>
+        </svg>
+        <span class="nav-label">База знаний</span>
+      </a>
+
+      <a href="tasks.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+        <span class="nav-label">Задачи</span>
+      </a>
+
+      <a href="billing.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M7 15h1M7 11h1M16 15h1M16 11h1"/>
+        </svg>
+        <span class="nav-label">Счета</span>
+      </a>
+
+      <div class="my-6 border-t border-white/15"></div>
+
+      <a href="settings.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span class="nav-label">Настройки платформы</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Основной контент -->
+  <div class="main-content">
+    <header class="header">
+      <button class="menu-toggle">☰</button>
+      <h1>База знаний — главная</h1>
+
+      <div style="display:flex; align-items:center; gap:1.25rem;">
+        <div style="position:relative; cursor:pointer;">
+          <span style="font-size:1.5rem;">🔔</span>
+          <span style="position:absolute; top:-0.4rem; right:-0.4rem; background:var(--red-500); color:white; font-size:0.65rem; font-weight:bold; padding:0.1rem 0.4rem; border-radius:999px;">3</span>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:0.75rem; cursor:pointer;">
+          <div style="width:2.5rem; height:2.5rem; background:#3b82f6; border-radius:999px; color:white; font-weight:600; display:flex; align-items:center; justify-content:center;">
+            <div class="profile-avatar" style="background-image: url('assets/img/ava.jpg');"></div>
+          </div>
+          <div>
+            <div style="font-weight:500;">Александр Бобров</div>
+            <div style="font-size:0.875rem; color:var(--gray-500);">Администратор</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div id="knowledge-home" class="module-section active">
+<!-- Панель быстрого переключения отделов -->
+<div style="background: white; border-radius: 16px; padding: 1rem 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+  <div style="display: flex; align-items: center; gap: 1.5rem;">
+    <span style="font-weight: 600; color: #2c3e50;">🏢 Отдел:</span>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <button class="dept-switch-btn active" data-dept="development" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#3498db; color:white; font-weight:500; cursor:pointer;">Разработка</button>
+      <button class="dept-switch-btn" data-dept="sales" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Продажи</button>
+      <button class="dept-switch-btn" data-dept="support" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Поддержка</button>
+      <button class="dept-switch-btn" data-dept="hr" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">HR</button>
+      <button class="dept-switch-btn" data-dept="marketing" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Маркетинг</button>
+    </div>
+  </div>
+  <div style="color:#6c757d; font-size:0.9rem;">
+    <i class="fas fa-sync-alt"></i> Обновлено сегодня
+  </div>
+</div>
+        <!-- Приветственный блок для отдела -->
+        <div class="welcome-card">
+          <div>
+            <h2>Добро пожаловать, Александр! 👋</h2>
+            <p>Вы в отделе <strong>Разработка</strong>. Вот что происходит в вашем отделе сегодня.</p>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-action-btn primary" id="home-create-article">
+              <i class="fas fa-plus"></i> Создать статью
+            </button>
+            <button class="quick-action-btn">
+              <i class="fas fa-question-circle"></i> Задать вопрос
+            </button>
+          </div>
+        </div>
+
+        <!-- Статистика отдела -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="stat-info">
+              <h3>24</h3>
+              <p>Всего статей</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-pen"></i>
+            </div>
+            <div class="stat-info">
+              <h3>5</h3>
+              <p>В работе</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-info">
+              <h3>1.2k</h3>
+              <p>Просмотров</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <h3>8</h3>
+              <p>Авторов</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Двухколоночный макет -->
+        <div class="two-column-grid">
+          <!-- Левая колонка: Закреплённые статьи -->
+          <div>
+            <div class="section-header">
+              <h3><i class="fas fa-thumbtack" style="color: #e67e22; margin-right: 0.5rem;"></i> Закреплённые статьи</h3>
+              <a href="knowledge-base.html?filter=pinned" class="text-primary">Все закреплённые →</a>
+            </div>
+            <div class="articles-grid" style="grid-template-columns: 1fr;">
+              <!-- Карточка закреплённой статьи -->
+              <div class="article-card pinned" style="border-top-color: #e67e22;">
+                <div class="article-header">
+                  <div>
+                    <div class="article-title">📌 Стандарты кода для backend-разработки</div>
+                    <div class="article-meta">
+                      <span><i class="far fa-user"></i> Петров А.В.</span>
+                      <span><i class="far fa-calendar"></i> 15.09.2025</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="article-excerpt">
+                  Актуальные правила и рекомендации для написания чистого и поддерживаемого кода.
+                </div>
+                <div class="article-footer">
+                  <div class="article-tags">
+                    <span class="tag">разработка</span>
+                    <span class="tag">стандарты</span>
+                  </div>
+                  <span class="status approved">Опубликовано</span>
+                </div>
+              </div>
+
+              <!-- Ещё одна закреплённая статья -->
+              <div class="article-card pinned" style="border-top-color: #e67e22;">
+                <div class="article-header">
+                  <div>
+                    <div class="article-title">📌 Инструкция по деплою в production</div>
+                    <div class="article-meta">
+                      <span><i class="far fa-user"></i> Сидоров И.И.</span>
+                      <span><i class="far fa-calendar"></i> 10.09.2025</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="article-excerpt">
+                  Пошаговое руководство по выкладке кода на боевые сервера с использованием CI/CD.
+                </div>
+                <div class="article-footer">
+                  <div class="article-tags">
+                    <span class="tag">деплой</span>
+                    <span class="tag">devops</span>
+                  </div>
+                  <span class="status approved">Опубликовано</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Правая колонка: Активность отдела -->
+          <div>
+            <div class="section-header">
+              <h3><i class="fas fa-history" style="color: #3498db; margin-right: 0.5rem;"></i> Последние изменения</h3>
+              <a href="#" class="text-primary">Вся активность →</a>
+            </div>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <i class="fas fa-pen"></i>
+                </div>
+                <div class="activity-content">
+                  <p><strong>Иванов И.И.</strong> обновил статью <a href="#">"Процедура обработки заявок"</a></p>
+                  <div class="activity-time">2 часа назад</div>
+                </div>
+                <span class="department-badge">Поддержка</span>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="activity-content">
+                  <p><strong>Петрова М.С.</strong> создал(а) новую статью <a href="#">"Как работать с Git"</a></p>
+                  <div class="activity-time">Вчера, 15:42</div>
+                </div>
+                <span class="department-badge">Разработка</span>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <i class="fas fa-comment"></i>
+                </div>
+                <div class="activity-content">
+                  <p><strong>Сидоров А.В.</strong> оставил комментарий к статье <a href="#">"Политика безопасности"</a></p>
+                  <div class="activity-time">Вчера, 11:20</div>
+                </div>
+                <span class="department-badge">HR</span>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="activity-content">
+                  <p>Статья <a href="#">"Инструкция для новых сотрудников"</a> прошла проверку</p>
+                  <div class="activity-time">2 дня назад</div>
+                </div>
+                <span class="department-badge">HR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Популярные статьи (ещё один ряд) -->
+        <div class="section-header">
+          <h3><i class="fas fa-fire" style="color: #e74c3c; margin-right: 0.5rem;"></i> Популярное в вашем отделе</h3>
+          <a href="knowledge-base.html?filter=popular" class="text-primary">Все популярные →</a>
+        </div>
+        <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+          <!-- Карточка популярной статьи 1 -->
+          <div class="article-card">
+            <div class="article-header">
+              <div>
+                <div class="article-title">Настройка рабочего окружения</div>
+                <div class="article-meta">
+                  <span><i class="far fa-user"></i> Фёдоров П.А.</span>
+                </div>
+              </div>
+              <div class="article-views"><i class="far fa-eye"></i> 456</div>
+            </div>
+            <div class="article-excerpt">
+              Как настроить IDE, плагины и инструменты для эффективной работы.
+            </div>
+            <div class="article-footer">
+              <div class="article-tags">
+                <span class="tag">настройка</span>
+                <span class="tag">инструменты</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Карточка популярной статьи 2 -->
+          <div class="article-card">
+            <div class="article-header">
+              <div>
+                <div class="article-title">Code review: чек-лист</div>
+                <div class="article-meta">
+                  <span><i class="far fa-user"></i> Васильев К.И.</span>
+                </div>
+              </div>
+              <div class="article-views"><i class="far fa-eye"></i> 389</div>
+            </div>
+            <div class="article-excerpt">
+              Что проверять при code review и как оставлять полезные комментарии.
+            </div>
+            <div class="article-footer">
+              <div class="article-tags">
+                <span class="tag">code review</span>
+                <span class="tag">процессы</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Карточка популярной статьи 3 -->
+          <div class="article-card">
+            <div class="article-header">
+              <div>
+                <div class="article-title">Шаблон технической документации</div>
+                <div class="article-meta">
+                  <span><i class="far fa-user"></i> Новикова О.Л.</span>
+                </div>
+              </div>
+              <div class="article-views"><i class="far fa-eye"></i> 267</div>
+            </div>
+            <div class="article-excerpt">
+              Готовый шаблон для создания технической документации в проектах.
+            </div>
+            <div class="article-footer">
+              <div class="article-tags">
+                <span class="tag">документация</span>
+                <span class="tag">шаблон</span>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- После блока "Популярное в вашем отделе" добавьте этот код -->
+
+<!-- Все статьи отдела с категориями -->
+<div class="section-header" style="margin-top: 3rem;">
+  <h3><i class="fas fa-folder-open" style="color: #3498db; margin-right: 0.5rem;"></i> Все статьи отдела <span id="current-dept-name">Разработка</span></h3>
+  <div style="display: flex; gap: 0.5rem;">
+    <button class="btn btn-secondary btn-sm" id="expand-all-categories">
+      <i class="fas fa-expand-alt"></i> Развернуть всё
+    </button>
+    <a href="knowledge-base.html?dept=development" class="btn btn-primary btn-sm">
+      <i class="fas fa-th-large"></i> Полный каталог
+    </a>
+  </div>
+</div>
+
+<!-- Категории отдела с превью статей -->
+<div class="department-categories">
+  <!-- Категория: Процедуры -->
+  <div class="category-section" data-category="procedures">
+    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
+        <h4 style="margin: 0; font-size: 1.1rem;">Процедуры</h4>
+        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">8 статей</span>
+      </div>
+      <a href="knowledge-base.html?category=procedures&dept=development" class="text-primary" style="font-size: 0.9rem;">Все процедуры →</a>
+    </div>
+    
+    <!-- Превью статей в категории (скрыто по умолчанию) -->
+    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
+      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
+        <!-- Статья 1 -->
+        <div class="article-card" style="border-top-color: #3498db;">
+          <div class="article-header">
+            <div>
+              <div class="article-title">Процедура обработки заявок</div>
+              <div class="article-meta">
+                <span><i class="far fa-user"></i> Петров А.В.</span>
+                <span><i class="far fa-calendar"></i> 15.09.2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="article-excerpt">
+            Полное руководство по обработке входящих заявок от клиентов.
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              <span class="tag">процедуры</span>
+              <span class="tag">заявки</span>
+            </div>
+            <span class="status approved">Опубликовано</span>
+          </div>
+        </div>
+        
+        <!-- Статья 2 -->
+        <div class="article-card" style="border-top-color: #3498db;">
+          <div class="article-header">
+            <div>
+              <div class="article-title">Процедура code review</div>
+              <div class="article-meta">
+                <span><i class="far fa-user"></i> Сидоров И.И.</span>
+                <span><i class="far fa-calendar"></i> 10.09.2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="article-excerpt">
+            Как проводить code review: правила, чек-листы и best practices.
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              <span class="tag">процедуры</span>
+              <span class="tag">code review</span>
+            </div>
+            <span class="status approved">Опубликовано</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="knowledge-base.html?category=procedures&dept=development" class="text-primary">Показать ещё 6 статей →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Категория: Техническая база -->
+  <div class="category-section" data-category="technical">
+    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
+        <h4 style="margin: 0; font-size: 1.1rem;">Техническая база</h4>
+        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">12 статей</span>
+      </div>
+      <a href="knowledge-base.html?category=technical&dept=development" class="text-primary" style="font-size: 0.9rem;">Все материалы →</a>
+    </div>
+    
+    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
+      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
+        <!-- Статья 1 -->
+        <div class="article-card" style="border-top-color: #3498db;">
+          <div class="article-header">
+            <div>
+              <div class="article-title">Архитектура микросервисов</div>
+              <div class="article-meta">
+                <span><i class="far fa-user"></i> Фёдоров П.А.</span>
+                <span><i class="far fa-calendar"></i> 05.09.2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="article-excerpt">
+            Принципы построения микросервисной архитектуры и паттерны взаимодействия.
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              <span class="tag">архитектура</span>
+              <span class="tag">микросервисы</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Статья 2 -->
+        <div class="article-card" style="border-top-color: #3498db;">
+          <div class="article-header">
+            <div>
+              <div class="article-title">База данных: оптимизация запросов</div>
+              <div class="article-meta">
+                <span><i class="far fa-user"></i> Васильев К.И.</span>
+                <span><i class="far fa-calendar"></i> 01.09.2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="article-excerpt">
+            Как писать эффективные SQL-запросы и оптимизировать работу с БД.
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              <span class="tag">базы данных</span>
+              <span class="tag">sql</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="knowledge-base.html?category=technical&dept=development" class="text-primary">Показать ещё 10 статей →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Категория: Документация -->
+  <div class="category-section" data-category="docs">
+    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
+        <h4 style="margin: 0; font-size: 1.1rem;">Документация</h4>
+        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">6 статей</span>
+      </div>
+      <a href="knowledge-base.html?category=docs&dept=development" class="text-primary" style="font-size: 0.9rem;">Все документы →</a>
+    </div>
+    
+    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
+      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
+        <!-- Статья 1 -->
+        <div class="article-card" style="border-top-color: #3498db;">
+          <div class="article-header">
+            <div>
+              <div class="article-title">API документация</div>
+              <div class="article-meta">
+                <span><i class="far fa-user"></i> Новикова О.Л.</span>
+                <span><i class="far fa-calendar"></i> 20.08.2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="article-excerpt">
+            Полная документация по REST API для внешних интеграций.
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              <span class="tag">api</span>
+              <span class="tag">интеграция</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="knowledge-base.html?category=docs&dept=development" class="text-primary">Показать ещё 4 статьи →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Категория: Внутренние политики -->
+  <div class="category-section" data-category="policies">
+    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
+        <h4 style="margin: 0; font-size: 1.1rem;">Внутренние политики</h4>
+        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">4 статьи</span>
+      </div>
+      <a href="knowledge-base.html?category=policies&dept=development" class="text-primary" style="font-size: 0.9rem;">Все политики →</a>
+    </div>
+    
+    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
+      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
+        <!-- Статья 1 -->
+        <div class="article-card" style="border-top-color: #3498db;">
+          <div class="article-header">
+            <div>
+              <div class="article-title">Политика безопасности</div>
+              <div class="article-meta">
+                <span><i class="far fa-user"></i> Смирнов А.А.</span>
+                <span><i class="far fa-calendar"></i> 15.08.2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="article-excerpt">
+            Правила безопасности при работе с кодом и доступом к системам.
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              <span class="tag">безопасность</span>
+              <span class="tag">политики</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="knowledge-base.html?category=policies&dept=development" class="text-primary">Показать ещё 2 статьи →</a>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- Быстрый переход к поиску -->
+        <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-top: 2rem; text-align: center;">
+          <h4 style="margin-bottom: 1rem;">Не нашли, что искали?</h4>
+          <div style="display: flex; gap: 1rem; max-width: 600px; margin: 0 auto;">
+            <input type="text" placeholder="Поиск по всей базе знаний..." style="flex: 1; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 8px;">
+            <button class="btn btn-primary" onclick="window.location.href='knowledge-base.html'">Перейти к поиску</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно редактора статьи (то же, что в knowledge-base.html) -->
+<div class="modal" id="editor-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Редактор статьи</div>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="article-title">Заголовок статьи</label>
+        <input type="text" id="article-title">
+      </div>
+
+      <div class="form-group">
+        <label for="article-category">Категория</label>
+        <select id="article-category">
+          <option>Процедуры</option>
+          <option>Техническая база</option>
+          <option>Документация</option>
+          <option>Внутренние политики</option>
+          <option>Частые вопросы</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="article-tags">Теги (через запятую)</label>
+        <input type="text" id="article-tags">
+      </div>
+
+      <div class="form-group">
+        <label for="article-status">Статус</label>
+        <select id="article-status">
+          <option>Черновик</option>
+          <option>На проверке</option>
+          <option>Опубликовано</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Доступность</label>
+        <select id="article-access">
+          <option>Публичная</option>
+          <option>Приватная</option>
+        </select>
+        <div id="private-groups" style="display:none; margin-top:10px;">
+          <label>Группы пользователей (выберите несколько):</label>
+          <select multiple id="article-groups">
+            <option>Администраторы</option>
+            <option>Менеджеры</option>
+            <option>Сотрудники</option>
+            <option>Все пользователи</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="enable-notifications"> 
+          Включить уведомления об обновлении статьи
+        </label>
+        <div id="notification-options" style="display:none; margin-top:10px;">
+          <label>Каналы уведомлений:</label><br>
+          <label><input type="checkbox" value="dashboard"> Дашборд платформы</label><br>
+          <label><input type="checkbox" value="bell"> Системные уведомления</label><br>
+          <label><input type="checkbox" value="email"> Email-рассылка</label><br>
+          <label><input type="checkbox" value="messenger"> Мессенджер (бот)</label>
+        </div>
+      </div>
+
+      <div class="form-group" id="glossary-admin-section">
+        <label>Настройки глоссария (JSON)</label>
+        <textarea id="glossary-json" rows="10"></textarea>
+        <button class="btn btn-primary" id="save-glossary-btn">Сохранить настройки глоссария</button>
+      </div>
+
+      <div class="editor-container">
+        <div class="editor-toolbar">
+          <button title="Жирный"><i class="fas fa-bold"></i></button>
+          <button title="Курсив"><i class="fas fa-italic"></i></button>
+          <button title="Подчёркнутый"><i class="fas fa-underline"></i></button>
+          <button title="Список"><i class="fas fa-list-ul"></i></button>
+          <button title="Нумерованный список"><i class="fas fa-list-ol"></i></button>
+          <button title="Ссылка"><i class="fas fa-link"></i></button>
+          <button title="Изображение"><i class="fas fa-image"></i></button>
+        </div>
+        <div class="editor-area">
+          <textarea id="article-content"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary"><i class="fas fa-times"></i> Отменить</button>
+      <button class="btn btn-secondary" id="save-draft"><i class="far fa-save"></i> Сохранить черновик</button>
+      <button class="btn btn-primary" id="publish-article"><i class="fas fa-check"></i> Опубликовать</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Копипаста нужных функций из knowledge.js для модалок и сайдбара
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+    const modalCloses = document.querySelectorAll('.modal-close');
+    const editorModal = document.getElementById('editor-modal');
+    const createArticleBtn = document.getElementById('home-create-article');
+    const articleAccessSelect = document.getElementById('article-access');
+    const enableNotifications = document.getElementById('enable-notifications');
+
+    // Сворачивание сайдбара
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('collapsed') ? '80px' : '240px';
+      });
+    }
+
+    // Закрытие модалок
+    modalCloses.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.modal').style.display = 'none';
+      });
+    });
+
+    window.addEventListener('click', e => {
+      if (e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+      }
+    });
+
+    // Открытие редактора
+    if (createArticleBtn) {
+      createArticleBtn.addEventListener('click', () => {
+        document.getElementById('article-title').value = '';
+        document.getElementById('article-content').value = '';
+        document.getElementById('article-tags').value = '';
+        document.getElementById('article-access').value = 'Публичная';
+        document.getElementById('private-groups').style.display = 'none';
+        document.getElementById('enable-notifications').checked = false;
+        document.getElementById('notification-options').style.display = 'none';
+        editorModal.style.display = 'flex';
+      });
+    }
+
+    // Приватность
+    if (articleAccessSelect) {
+      articleAccessSelect.addEventListener('change', e => {
+        document.getElementById('private-groups').style.display = 
+          (e.target.value === 'Приватная') ? 'block' : 'none';
+      });
+    }
+
+    // Уведомления
+    if (enableNotifications) {
+      enableNotifications.addEventListener('change', e => {
+        document.getElementById('notification-options').style.display = 
+          e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Сохранение черновика
+    document.getElementById('save-draft')?.addEventListener('click', () => {
+      alert('Черновик сохранён (симуляция)');
+      editorModal.style.display = 'none';
+    });
+
+    document.getElementById('publish-article')?.addEventListener('click', () => {
+      alert('Статья опубликована (симуляция)');
+      editorModal.style.display = 'none';
+    });
+    // Переключение категорий (сворачивание/разворачивание)
+document.querySelectorAll('.category-header').forEach(header => {
+  header.addEventListener('click', function(e) {
+    // Не срабатывать при клике на ссылку
+    if (e.target.tagName === 'A' || e.target.closest('a')) return;
+    
+    const section = this.closest('.category-section');
+    const preview = section.querySelector('.category-preview');
+    const icon = this.querySelector('.fa-chevron-right');
+    
+    if (preview.style.display === 'none') {
+      preview.style.display = 'block';
+      icon.style.transform = 'rotate(90deg)';
+    } else {
+      preview.style.display = 'none';
+      icon.style.transform = 'rotate(0deg)';
+    }
+  });
+});
+
+// Кнопка "Развернуть всё"
+document.getElementById('expand-all-categories').addEventListener('click', function() {
+  const isExpanding = this.textContent.includes('Развернуть всё');
+  
+  document.querySelectorAll('.category-section').forEach(section => {
+    const preview = section.querySelector('.category-preview');
+    const icon = section.querySelector('.fa-chevron-right');
+    
+    if (isExpanding) {
+      preview.style.display = 'block';
+      icon.style.transform = 'rotate(90deg)';
+      this.innerHTML = '<i class="fas fa-compress-alt"></i> Свернуть всё';
+    } else {
+      preview.style.display = 'none';
+      icon.style.transform = 'rotate(0deg)';
+      this.innerHTML = '<i class="fas fa-expand-alt"></i> Развернуть всё';
+    }
+  });
+});
+
+// Обновление названия отдела в заголовке при переключении
+function updateDepartmentName(dept) {
+  const deptNames = {
+    'development': 'Разработка',
+    'sales': 'Продажи',
+    'support': 'Поддержка',
+    'hr': 'HR',
+    'marketing': 'Маркетинг'
+  };
+  document.getElementById('current-dept-name').textContent = deptNames[dept];
+  
+  // Обновляем ссылки в категориях
+  document.querySelectorAll('.category-section a[href*="knowledge-base.html"]').forEach(link => {
+    const href = link.getAttribute('href');
+    // Обновляем параметр dept в ссылке
+    link.setAttribute('href', href.replace(/dept=\w+/, `dept=${dept}`));
+  });
+}
+  });
+</script>
+</body>
+</html>
