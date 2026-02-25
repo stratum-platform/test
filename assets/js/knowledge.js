@@ -238,3 +238,159 @@ document.querySelector('.edit-article-btn')?.addEventListener('click', () => {
   };
   document.getElementById('glossary-json').value = JSON.stringify(exampleConfig, null, 2);
 });
+function toggleTreeNode(element) {
+    const categoryDiv = element.closest('.tree-category');
+    const childrenDiv = categoryDiv.querySelector('.tree-children');
+    const icon = element.querySelector('.fa-chevron-right');
+    
+    if (childrenDiv) {
+      if (childrenDiv.style.display === 'none') {
+        childrenDiv.style.display = 'block';
+        icon.style.transform = 'rotate(90deg)';
+      } else {
+        childrenDiv.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+  }
+  
+  // Развернуть всё дерево
+  document.getElementById('expand-all-tree')?.addEventListener('click', function() {
+    const allChildren = document.querySelectorAll('.tree-children');
+    const allIcons = document.querySelectorAll('.tree-node .fa-chevron-right');
+    
+    allChildren.forEach(child => child.style.display = 'block');
+    allIcons.forEach(icon => icon.style.transform = 'rotate(90deg)');
+    
+    this.innerHTML = '<i class="fas fa-compress-alt"></i>';
+    setTimeout(() => {
+      this.innerHTML = '<i class="fas fa-compress-alt"></i> Свернуть всё';
+    }, 100);
+  });
+  
+  // Функция открытия статей категории (симуляция)
+  function openCategoryArticles(categoryId) {
+    // Убираем активный класс у всех узлов
+    document.querySelectorAll('.tree-node').forEach(node => {
+      node.classList.remove('active');
+    });
+    
+    // Подсвечиваем выбранный узел (упрощённо - ищем по родителю)
+    event.currentTarget.classList.add('active');
+    
+    // Обновляем заголовок контента
+    const categoryName = event.currentTarget.querySelector('span:not(.category-badge)').textContent.trim();
+    document.getElementById('content-category-title').textContent = categoryName;
+    document.getElementById('content-category-desc').textContent = `Статьи в категории «${categoryName}» отдела Разработка`;
+    document.getElementById('current-category-breadcrumb').textContent = categoryName;
+    
+    // Здесь должна быть загрузка статей через AJAX
+    // Для демонстрации просто показываем сообщение
+    console.log('Загружаем категорию:', categoryId);
+    
+    // Симуляция загрузки разных статей
+    const container = document.getElementById('articles-container');
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #6c757d;"><i class="fas fa-spinner fa-spin"></i> Загрузка статей...</div>';
+    
+    setTimeout(() => {
+      if (categoryId.includes('procedures')) {
+        container.innerHTML = `
+          <div class="article-card"><div class="article-header"><div><div class="article-title">Процедура обработки заявок</div><div class="article-meta"><span><i class="far fa-user"></i> Петров А.В.</span></div></div></div><div class="article-excerpt">Полное руководство по обработке входящих заявок от клиентов.</div><div class="article-footer"><div class="article-tags"><span class="tag">процедуры</span></div></div></div>
+          <div class="article-card"><div class="article-header"><div><div class="article-title">Процедура code review</div><div class="article-meta"><span><i class="far fa-user"></i> Сидоров И.И.</span></div></div></div><div class="article-excerpt">Как проводить code review: правила, чек-листы и best practices.</div><div class="article-footer"><div class="article-tags"><span class="tag">code review</span></div></div></div>
+          <div class="article-card"><div class="article-header"><div><div class="article-title">Процедура онбординга</div><div class="article-meta"><span><i class="far fa-user"></i> Иванова М.С.</span></div></div></div><div class="article-excerpt">Введение в должность для новых сотрудников отдела.</div><div class="article-footer"><div class="article-tags"><span class="tag">онбординг</span></div></div></div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="article-card"><div class="article-header"><div><div class="article-title">Статьи категории ${categoryName}</div><div class="article-meta"><span><i class="far fa-user"></i> Система</span></div></div></div><div class="article-excerpt">Демонстрационные статьи для выбранной категории.</div><div class="article-footer"><div class="article-tags"><span class="tag">демо</span></div></div></div>
+          <div class="article-card"><div class="article-header"><div><div class="article-title">Пример второй статьи</div><div class="article-meta"><span><i class="far fa-user"></i> Тестовый пользователь</span></div></div></div><div class="article-excerpt">Описание функциональности и возможностей.</div><div class="article-footer"><div class="article-tags"><span class="tag">пример</span></div></div></div>
+        `;
+      }
+      // Применяем текущий вид отображения
+      applyCurrentView();
+    }, 500);
+  }
+  
+  // Переключение вида (плитка/список/компактный)
+  document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.view-toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.background = 'transparent';
+      });
+      this.classList.add('active');
+      this.style.background = 'white';
+      
+      const viewMode = this.dataset.view;
+      const container = document.getElementById('articles-container');
+      
+      // Убираем предыдущие классы
+      container.classList.remove('list-view', 'compact-view');
+      
+      if (viewMode === 'grid') {
+        container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+      } else if (viewMode === 'list') {
+        container.classList.add('list-view');
+        container.style.gridTemplateColumns = '1fr';
+      } else if (viewMode === 'compact') {
+        container.classList.add('compact-view');
+        container.style.gridTemplateColumns = '1fr';
+      }
+    });
+  });
+  
+  function applyCurrentView() {
+    const activeBtn = document.querySelector('.view-toggle-btn.active');
+    if (activeBtn) {
+      const viewMode = activeBtn.dataset.view;
+      const container = document.getElementById('articles-container');
+      
+      container.classList.remove('list-view', 'compact-view');
+      
+      if (viewMode === 'grid') {
+        container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+      } else if (viewMode === 'list') {
+        container.classList.add('list-view');
+        container.style.gridTemplateColumns = '1fr';
+      } else if (viewMode === 'compact') {
+        container.classList.add('compact-view');
+        container.style.gridTemplateColumns = '1fr';
+      }
+    }
+  }
+  
+  // Поиск по категориям
+  document.getElementById('category-search')?.addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const categories = document.querySelectorAll('.tree-category');
+    
+    categories.forEach(cat => {
+      const catText = cat.textContent.toLowerCase();
+      if (catText.includes(searchTerm) || searchTerm === '') {
+        cat.style.display = 'block';
+        // Если есть совпадение и поиск не пустой - разворачиваем
+        if (searchTerm !== '') {
+          const children = cat.querySelector('.tree-children');
+          const icon = cat.querySelector('.fa-chevron-right');
+          if (children) {
+            children.style.display = 'block';
+            if (icon) icon.style.transform = 'rotate(90deg)';
+          }
+        }
+      } else {
+        cat.style.display = 'none';
+      }
+    });
+  });
+  
+  // Обновление названия отдела в breadcrumb при переключении отдела
+  function updateDeptBreadcrumb(deptName) {
+    document.getElementById('current-dept-breadcrumb').textContent = deptName;
+  }
+  
+  // Подключаем к существующим кнопкам переключения отделов
+  document.querySelectorAll('.dept-switch-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const deptName = this.textContent.trim();
+      updateDeptBreadcrumb(deptName);
+    });
+  });

@@ -727,3 +727,85 @@
   padding: 3px 9px;
   border-radius: 999px;
 }
+
+
+  /* 24.02 */
+  /* Стили для древа */
+  .tree-node {
+    transition: background-color 0.2s;
+  }
+  .tree-node:hover {
+    background-color: #f0f7ff;
+  }
+  .tree-node.level-1:hover {
+    background-color: #f0f7ff;
+  }
+  .tree-node.level-2 {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: #495057;
+  }
+  .tree-node.level-2 .category-badge {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.5rem;
+  }
+  .tree-children {
+    border-left: 1px dashed #dee2e6;
+    padding-left: 0.5rem;
+  }
+  
+  /* Активный узел дерева */
+  .tree-node.active {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    font-weight: 500;
+  }
+  .tree-node.active i {
+    color: #1976d2;
+  }
+  
+  /* Переключение видов */
+  .view-toggle-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    color: #3498db;
+  }
+  
+  /* Вид списком */
+  .articles-grid.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .articles-grid.list-view .article-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+  .articles-grid.list-view .article-header {
+    flex: 2;
+  }
+  .articles-grid.list-view .article-excerpt {
+    flex: 3;
+    margin: 0 1rem;
+  }
+  .articles-grid.list-view .article-footer {
+    flex: 1;
+    justify-content: flex-end;
+  }
+  
+  /* Компактный вид */
+  .articles-grid.compact-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .articles-grid.compact-view .article-card {
+    padding: 0.75rem 1rem;
+  }
+  .articles-grid.compact-view .article-excerpt {
+    display: none;
+  }
+  .articles-grid.compact-view .article-meta {
+    font-size: 0.8rem;
+  }

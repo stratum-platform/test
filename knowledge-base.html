@@ -10,466 +10,634 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/knowledge.css">
+  <style>
+    /* Дополнительные стили для страницы базы знаний */
+    .tree-node {
+      transition: background-color 0.2s;
+    }
+    .tree-node:hover {
+      background-color: #f0f7ff;
+    }
+    .tree-node.level-1:hover {
+      background-color: #f0f7ff;
+    }
+    .tree-node.level-2 {
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      color: #495057;
+    }
+    .tree-node.level-2 .category-badge {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.5rem;
+    }
+    .tree-children {
+      border-left: 1px dashed #dee2e6;
+      padding-left: 0.5rem;
+    }
+    
+    /* Активный узел дерева */
+    .tree-node.active {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      font-weight: 500;
+    }
+    .tree-node.active i {
+      color: #1976d2;
+    }
+    
+    /* Переключение видов */
+    .view-toggle-btn.active {
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      color: #3498db;
+    }
+    
+    /* Вид списком */
+    .articles-grid.list-view {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .articles-grid.list-view .article-card {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+    }
+    .articles-grid.list-view .article-header {
+      flex: 2;
+    }
+    .articles-grid.list-view .article-excerpt {
+      flex: 3;
+      margin: 0 1rem;
+    }
+    .articles-grid.list-view .article-footer {
+      flex: 1;
+      justify-content: flex-end;
+    }
+    
+    /* Компактный вид */
+    .articles-grid.compact-view {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .articles-grid.compact-view .article-card {
+      padding: 0.75rem 1rem;
+    }
+    .articles-grid.compact-view .article-excerpt {
+      display: none;
+    }
+    .articles-grid.compact-view .article-meta {
+      font-size: 0.8rem;
+    }
+    
+    .nav-tabs {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border: 1px solid #e9ecef;
+      overflow: hidden;
+      display: flex;
+    }
+    
+    .nav-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      background: #f8f9fa;
+      color: #6c757d;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .nav-tab.active {
+      background: #3498db;
+      color: white;
+    }
+    
+    .nav-tab:hover:not(.active) {
+      background: #e9ecef;
+    }
+    
+    .back-to-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    .back-to-home-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
 
-<aside class="sidebar" id="sidebar">
-  <button class="toggle-sidebar-btn" title="Свернуть/развернуть">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-  </button>
-
-  <div class="profile-block">
-    <div class="profile-avatar" style="background-image: url('assets/img/user-avatar.jpg');"></div>
-    <div class="nav-text logo-text">Archstone</div>
-  </div>
-
-  <nav class="mt-6">
-    <a href="#" class="nav-item active">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
+  <!-- Сайдбар -->
+  <aside class="sidebar" id="sidebar">
+    <button class="toggle-sidebar-btn" title="Свернуть/развернуть">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
-      <span class="nav-label">Начальная страница</span>
-    </a>
+    </button>
 
-    <a href="profile.html" class="nav-item">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-      <span class="nav-label">Личный кабинет</span>
-    </a>
-
-    <a href="knowledge-base.html" class="nav-item">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>
-      </svg>
-      <span class="nav-label">База знаний</span>
-    </a>
-
-    <a href="tasks.html" class="nav-item">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 11l3 3L22 4"/>
-        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-      </svg>
-      <span class="nav-label">Задачи</span>
-    </a>
-
-    <a href="billing.html" class="nav-item">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="4" width="20" height="16" rx="2"/>
-        <path d="M7 15h1M7 11h1M16 15h1M16 11h1"/>
-      </svg>
-      <span class="nav-label">Счета</span>
-    </a>
-
-    <div class="my-6 border-t border-white/15"></div>
-
-    <a href="settings.html" class="nav-item">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-      <span class="nav-label">Настройки платформы</span>
-    </a>
-  </nav>
-</aside>
-
-<div class="main-content">
-  <header class="header">
-    <button class="menu-toggle">☰</button>
-    <h1>База знаний</h1>
-
-    <div style="display:flex; align-items:center; gap:1.25rem;">
-      <input type="search" placeholder="Поиск по модулям..." style="width:15rem; padding:0.5rem 1rem; border:1px solid var(--gray-300); border-radius:6px;">
-
-      <div style="position:relative; cursor:pointer;">
-        <span style="font-size:1.5rem;">🔔</span>
-        <span style="position:absolute; top:-0.4rem; right:-0.4rem; background:var(--red-500); color:white; font-size:0.65rem; font-weight:bold; padding:0.1rem 0.4rem; border-radius:999px;">3</span>
-      </div>
-
-      <div style="display:flex; align-items:center; gap:0.75rem; cursor:pointer;">
-        <div style="width:2.5rem; height:2.5rem; background:#3b82f6; border-radius:999px; color:white; font-weight:600; display:flex; align-items:center; justify-content:center;">
-          <div class="profile-avatar" style="background-image: url('assets/img/ava.jpg');"></div>
-        </div>
-        <div>
-          <div style="font-weight:500;">Александр Бобров</div>
-          <div style="font-size:0.875rem; color:var(--gray-500);">Администратор</div>
-        </div>
-      </div>
+    <div class="profile-block">
+      <div class="profile-avatar" style="background-image: url('assets/img/user-avatar.jpg');"></div>
+      <div class="nav-text logo-text">Archstone</div>
     </div>
-  </header>
 
-  <div class="content-area">
-    <div id="knowledge" class="module-section active">
-      <div class="search-container">
-        <div class="search-box">
-          <input type="text" id="knowledge-search" placeholder="Поиск по базе знаний...">
-          <div class="search-icon"><i class="fas fa-search"></i></div>
+    <nav class="mt-6">
+      <a href="index.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-label">Начальная страница</span>
+      </a>
+
+      <a href="profile.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-label">Личный кабинет</span>
+      </a>
+
+      <a href="knowledge-home.html" class="nav-item active">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>
+        </svg>
+        <span class="nav-label">База знаний</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+        <span class="nav-label">Задачи</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M7 15h1M7 11h1M16 15h1M16 11h1"/>
+        </svg>
+        <span class="nav-label">Счета</span>
+      </a>
+
+      <div class="my-6 border-t border-white/15"></div>
+
+      <a href="settings.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span class="nav-label">Настройки платформы</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Основной контент -->
+  <div class="main-content">
+    <header class="header">
+      <button class="menu-toggle">☰</button>
+      <h1>База знаний</h1>
+
+      <div style="display:flex; align-items:center; gap:1.25rem;">
+        <input type="search" placeholder="Поиск по модулям..." style="width:15rem; padding:0.5rem 1rem; border:1px solid var(--gray-300); border-radius:6px;">
+
+        <div style="position:relative; cursor:pointer;">
+          <span style="font-size:1.5rem;">🔔</span>
+          <span style="position:absolute; top:-0.4rem; right:-0.4rem; background:var(--red-500); color:white; font-size:0.65rem; font-weight:bold; padding:0.1rem 0.4rem; border-radius:999px;">3</span>
         </div>
-        <button id="toggle-filters-btn" class="btn btn-secondary"><i class="fas fa-filter"></i> Фильтры</button>
-        <button class="btn btn-primary" id="create-article-btn">
-          <i class="fas fa-plus"></i> Создать статью
-        </button>
+
+        <div style="display:flex; align-items:center; gap:0.75rem; cursor:pointer;">
+          <div style="width:2.5rem; height:2.5rem; background:#3b82f6; border-radius:999px; color:white; font-weight:600; display:flex; align-items:center; justify-content:center;">
+            <div class="profile-avatar" style="background-image: url('assets/img/ava.jpg');"></div>
+          </div>
+          <div>
+            <div style="font-weight:500;">Александр Бобров</div>
+            <div style="font-size:0.875rem; color:var(--gray-500);">Администратор</div>
+          </div>
+        </div>
       </div>
+    </header>
 
-      <div class="view-switcher">
-        <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i> Сетка</button>
-        <button class="view-btn" data-view="list"><i class="fas fa-list"></i> Список</button>
-        <button class="view-btn" data-view="tiles"><i class="fas fa-th-large"></i> Плитки</button>
-      </div>
-
-      <div class="filters" id="filters-panel">
-        <select class="filter-select" id="filter-category">
-          <option>Все категории</option>
-          <option>Процедуры</option>
-          <option>Техническая база</option>
-          <option>Документация</option>
-          <option>Внутренние политики</option>
-          <option>Частые вопросы</option>
-        </select>
-
-        <select class="filter-select" id="filter-sort">
-          <option>Сначала новые</option>
-          <option>Сначала старые</option>
-          <option>По популярности</option>
-          <option>По релевантности</option>
-        </select>
-
-        <select class="filter-select" id="filter-status">
-          <option>Все статусы</option>
-          <option>Опубликовано</option>
-          <option>Черновик</option>
-          <option>На проверке</option>
-        </select>
-
-        <select class="filter-select" id="filter-author">
-          <option>Все авторы</option>
-          <option>Петров А.В.</option>
-          <option>Сидорова Е.К.</option>
-          <option>Кузнецов И.С.</option>
-          <option>Васильев П.М.</option>
-          <option>Новикова О.Л.</option>
-          <option>Федоров С.А.</option>
-        </select>
-
-<div class="filter-date-range">
-  <label>Период создания:</label>
-  <div class="date-inputs">
-    <input type="date" id="filter-date-from" placeholder="От">
-    <span>—</span>
-    <input type="date" id="filter-date-to" placeholder="До">
-  </div>
-</div>
-
-        <select class="filter-select" id="filter-tags" size="4">
-          <option>обучение</option>
-          <option>процедуры</option>
-          <option>техника</option>
-          <option>безопасность</option>
-          <option>отчетность</option>
-          <option>программы</option>
-          <option>клиенты</option>
-          <option>CRM</option>
-        </select>
-
-        <select class="filter-select" id="filter-access">
-          <option>Все</option>
-          <option>Публичные</option>
-          <option>Приватные</option>
-        </select>
-
-        <button class="btn btn-primary" id="apply-filters">Применить</button>
-        <button class="btn btn-secondary" id="reset-filters">Сброс</button>
-      </div>
-
-      <div class="knowledge-layout">
-        <div class="categories-sidebar">
-                <h3 style="margin: 20px 0 15px;">Отделы</h3>
-    <ul class="department-list">
-      <li class="department-item active" data-dept="all"><span>Все отделы</span><span class="count">42</span></li>
-      <li class="department-item" data-dept="sales"><span>Продажи</span><span class="count">14</span></li>
-      <li class="department-item" data-dept="support"><span>Поддержка</span><span class="count">11</span></li>
-      <li class="department-item" data-dept="hr"><span>HR</span><span class="count">8</span></li>
-      <li class="department-item" data-dept="dev"><span>Разработка</span><span class="count">6</span></li>
-    </ul>
-    <h3>Категории</h3>
-    <ul class="category-list">
-      <li class="category-item active"><span>Все статьи</span><span class="category-count">42</span></li>
-      <li class="category-item"><span>Процедуры</span><span class="category-count">15</span></li>
-      <li class="category-item"><span>Техническая база</span><span class="category-count">12</span></li>
-      <li class="category-item"><span>Документация</span><span class="category-count">8</span></li>
-      <li class="category-item"><span>Внутренние политики</span><span class="category-count">5</span></li>
-      <li class="category-item"><span>Частые вопросы</span><span class="category-count">2</span></li>
-    </ul>
-
-
-    <h3 style="margin: 20px 0 15px;">Теги</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-      <span class="tag">обучение</span><span class="tag">процедуры</span><span class="tag">техника</span>
-      <span class="tag">безопасность</span><span class="tag">отчетность</span><span class="tag">программы</span>
+    <!-- Навигационные вкладки -->
+    <div class="nav-tabs">
+      <a href="knowledge-home.html" class="nav-tab">
+        <i class="fas fa-chart-pie" style="margin-right: 0.5rem;"></i> Обзор
+      </a>
+      <a href="knowledge-base.html" class="nav-tab active">
+        <i class="fas fa-sitemap" style="margin-right: 0.5rem;"></i> Категории и статьи
+      </a>
     </div>
-  </div>
 
-        <div class="knowledge-main grid">
-          <div class="articles-grid">
-            <!-- Пример статьи 1 -->
-            <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
+    <div class="content-area">
+      <div id="knowledge" class="module-section active">
+        <!-- Панель быстрого переключения отделов -->
+        <div style="background: white; border-radius: 16px; padding: 1rem 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-weight: 600; color: #2c3e50;">🏢 Отдел:</span>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="dept-switch-btn active" data-dept="development" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#3498db; color:white; font-weight:500; cursor:pointer;">Разработка</button>
+              <button class="dept-switch-btn" data-dept="sales" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Продажи</button>
+              <button class="dept-switch-btn" data-dept="support" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Поддержка</button>
+              <button class="dept-switch-btn" data-dept="hr" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">HR</button>
+              <button class="dept-switch-btn" data-dept="marketing" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Маркетинг</button>
             </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
+          </div>
+          <div style="color:#6c757d; font-size:0.9rem;">
+            <i class="fas fa-sync-alt"></i> Обновлено сегодня
+          </div>
+        </div>
+      
+        
+        <div class="search-container">
+          <div class="search-box">
+            <input type="text" id="knowledge-search" placeholder="Поиск по базе знаний...">
+            <div class="search-icon"><i class="fas fa-search"></i></div>
+          </div>
+          <button id="toggle-filters-btn" class="btn btn-secondary"><i class="fas fa-filter"></i> Фильтры</button>
+          <button class="btn btn-primary" id="create-article-btn">
+            <i class="fas fa-plus"></i> Создать статью
+          </button>
+        </div>
+
+        <div class="filters" id="filters-panel">
+          <select class="filter-select" id="filter-category">
+            <option>Все категории</option>
+            <option>Процедуры</option>
+            <option>Техническая база</option>
+            <option>Документация</option>
+            <option>Внутренние политики</option>
+            <option>Частые вопросы</option>
+          </select>
+
+          <select class="filter-select" id="filter-sort">
+            <option>Сначала новые</option>
+            <option>Сначала старые</option>
+            <option>По популярности</option>
+            <option>По релевантности</option>
+          </select>
+
+          <select class="filter-select" id="filter-status">
+            <option>Все статусы</option>
+            <option>Опубликовано</option>
+            <option>Черновик</option>
+            <option>На проверке</option>
+          </select>
+
+          <select class="filter-select" id="filter-author">
+            <option>Все авторы</option>
+            <option>Петров А.В.</option>
+            <option>Сидорова Е.К.</option>
+            <option>Кузнецов И.С.</option>
+            <option>Васильев П.М.</option>
+            <option>Новикова О.Л.</option>
+            <option>Федоров С.А.</option>
+          </select>
+
+          <div class="filter-date-range">
+            <label>Период создания:</label>
+            <div class="date-inputs">
+              <input type="date" id="filter-date-from" placeholder="От">
+              <span>—</span>
+              <input type="date" id="filter-date-to" placeholder="До">
             </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
-            </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
-            </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
-            </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
-            </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
-            </div>
-                        <div class="article-card" 
-                 data-article="1"
-                 data-category="Процедуры"
-                 data-status="Опубликовано"
-                 data-author="Петров А.В."
-                 data-date="2025-09-15"
-                 data-tags="процедуры,клиенты,обработка"
-                 data-access="public"
-                 data-views="245">
-              <div class="article-header">
-                <div>
-                  <div class="article-title">Процедура обработки входящих заявок</div>
-                  <div class="article-meta">
-                    <span><i class="far fa-user"></i> Петров А.В.</span>
-                    <span><i class="far fa-calendar"></i> 15.09.2025</span>
-                  </div>
-                </div>
-                <div class="article-views"><i class="far fa-eye"></i> 245</div>
-              </div>
-              <div class="article-excerpt">
-                Полное руководство по обработке входящих заявок от клиентов. Включает этапы регистрации, классификации и перенаправления заявок.
-              </div>
-              <div class="article-footer">
-                <div class="article-tags">
-                  <span class="tag">процедуры</span>
-                  <span class="tag">клиенты</span>
-                </div>
-                <span class="status approved">Опубликовано</span>
-              </div>
-            </div>
-            <!-- остальные статьи как были -->
           </div>
 
-          <div class="pagination">
-            <div>Показано 6 из 42 статей</div>
-            <div class="pagination-buttons">
-              <button class="btn btn-secondary btn-sm"><i class="fas fa-chevron-left"></i></button>
-              <button class="btn btn-secondary btn-sm active">1</button>
+          <select class="filter-select" id="filter-tags" size="4">
+            <option>обучение</option>
+            <option>процедуры</option>
+            <option>техника</option>
+            <option>безопасность</option>
+            <option>отчетность</option>
+            <option>программы</option>
+            <option>клиенты</option>
+            <option>CRM</option>
+          </select>
+
+          <select class="filter-select" id="filter-access">
+            <option>Все</option>
+            <option>Публичные</option>
+            <option>Приватные</option>
+          </select>
+
+          <button class="btn btn-primary" id="apply-filters">Применить</button>
+          <button class="btn btn-secondary" id="reset-filters">Сброс</button>
+        </div>
+
+        <div class="knowledge-layout" style="display: flex; gap: 1.5rem; margin-top: 2rem;">
+          
+          <!-- ЛЕВАЯ КОЛОНКА: ДРЕВО КАТЕГОРИЙ -->
+          <aside class="knowledge-tree-sidebar" style="flex: 0 0 320px; background: white; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 1.5rem; height: fit-content; position: sticky; top: 1rem;">
+            <!-- Заголовок сайдбара -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 style="font-size: 1.1rem; color: #2c3e50; margin: 0;">
+                <i class="fas fa-sitemap" style="color: #3498db; margin-right: 0.5rem;"></i>
+                Категории отдела
+              </h3>
+              <button id="expand-all-tree" class="btn btn-secondary btn-sm" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;" title="Развернуть всё">
+                <i class="fas fa-expand-alt"></i>
+              </button>
+            </div>
+            
+            <!-- Поиск по категориям -->
+            <div style="margin-bottom: 1.5rem; position: relative;">
+              <input type="text" id="category-search" placeholder="Поиск в категориях..." style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid #e9ecef; border-radius: 30px; font-size: 0.9rem; background: #f8f9fa;">
+              <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #6c757d; font-size: 0.9rem;"></i>
+            </div>
+            
+            <!-- Дерево категорий -->
+            <div class="category-tree">
+              
+              <!-- УРОВЕНЬ 1: Категория ПРОЦЕДУРЫ -->
+              <div class="tree-category" data-category="procedures">
+                <div class="tree-node level-1" style="display: flex; align-items: center; padding: 0.5rem 0; border-radius: 6px; cursor: pointer; user-select: none;" onclick="toggleTreeNode(this)">
+                  <i class="fas fa-chevron-right" style="width: 20px; font-size: 0.8rem; color: #6c757d; transition: transform 0.2s; margin-right: 0.5rem;"></i>
+                  <i class="fas fa-folder" style="color: #f39c12; margin-right: 0.75rem; width: 18px;"></i>
+                  <span style="flex: 1; font-weight: 500;">Процедуры</span>
+                  <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem; color: #495057;">8</span>
+                </div>
+                
+                <!-- Подкатегории (уровень 2) -->
+                <div class="tree-children" style="margin-left: 1.5rem; display: none;">
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0; border-radius: 6px; cursor: pointer;" onclick="event.stopPropagation(); openCategoryArticles('procedures-standards')">
+                    <i class="fas fa-file-alt" style="color: #3498db; margin-right: 0.75rem; width: 18px; font-size: 0.9rem;"></i>
+                    <span style="flex: 1;">Стандартные процедуры</span>
+                    <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem;">5</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0; border-radius: 6px; cursor: pointer;" onclick="event.stopPropagation(); openCategoryArticles('procedures-checklists')">
+                    <i class="fas fa-check-square" style="color: #27ae60; margin-right: 0.75rem; width: 18px; font-size: 0.9rem;"></i>
+                    <span style="flex: 1;">Чек-листы</span>
+                    <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem;">3</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- УРОВЕНЬ 1: Категория ТЕХНИЧЕСКАЯ БАЗА -->
+              <div class="tree-category" data-category="technical">
+                <div class="tree-node level-1" style="display: flex; align-items: center; padding: 0.5rem 0; border-radius: 6px; cursor: pointer; user-select: none;" onclick="toggleTreeNode(this)">
+                  <i class="fas fa-chevron-right" style="width: 20px; font-size: 0.8rem; color: #6c757d; transition: transform 0.2s; margin-right: 0.5rem;"></i>
+                  <i class="fas fa-folder" style="color: #f39c12; margin-right: 0.75rem; width: 18px;"></i>
+                  <span style="flex: 1; font-weight: 500;">Техническая база</span>
+                  <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem;">12</span>
+                </div>
+                
+                <!-- Подкатегории -->
+                <div class="tree-children" style="margin-left: 1.5rem; display: none;">
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('tech-architecture')">
+                    <i class="fas fa-cubes" style="color: #9b59b6; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Архитектура</span>
+                    <span class="category-badge">4</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('tech-databases')">
+                    <i class="fas fa-database" style="color: #e67e22; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Базы данных</span>
+                    <span class="category-badge">3</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('tech-devops')">
+                    <i class="fas fa-cloud" style="color: #3498db; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">DevOps</span>
+                    <span class="category-badge">3</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('tech-languages')">
+                    <i class="fas fa-code" style="color: #2c3e50; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Языки программирования</span>
+                    <span class="category-badge">2</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- УРОВЕНЬ 1: Категория ДОКУМЕНТАЦИЯ -->
+              <div class="tree-category" data-category="docs">
+                <div class="tree-node level-1" style="display: flex; align-items: center; padding: 0.5rem 0; border-radius: 6px; cursor: pointer; user-select: none;" onclick="toggleTreeNode(this)">
+                  <i class="fas fa-chevron-right" style="width: 20px; font-size: 0.8rem; color: #6c757d; transition: transform 0.2s; margin-right: 0.5rem;"></i>
+                  <i class="fas fa-folder" style="color: #f39c12; margin-right: 0.75rem; width: 18px;"></i>
+                  <span style="flex: 1; font-weight: 500;">Документация</span>
+                  <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem;">6</span>
+                </div>
+                
+                <!-- Подкатегории -->
+                <div class="tree-children" style="margin-left: 1.5rem; display: none;">
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('docs-api')">
+                    <i class="fas fa-plug" style="color: #e74c3c; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">API документация</span>
+                    <span class="category-badge">2</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('docs-user')">
+                    <i class="fas fa-user" style="color: #27ae60; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Пользовательская</span>
+                    <span class="category-badge">2</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('docs-tech')">
+                    <i class="fas fa-cog" style="color: #7f8c8d; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Техническая</span>
+                    <span class="category-badge">2</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- УРОВЕНЬ 1: Категория ВНУТРЕННИЕ ПОЛИТИКИ -->
+              <div class="tree-category" data-category="policies">
+                <div class="tree-node level-1" style="display: flex; align-items: center; padding: 0.5rem 0; border-radius: 6px; cursor: pointer; user-select: none;" onclick="toggleTreeNode(this)">
+                  <i class="fas fa-chevron-right" style="width: 20px; font-size: 0.8rem; color: #6c757d; transition: transform 0.2s; margin-right: 0.5rem;"></i>
+                  <i class="fas fa-folder" style="color: #f39c12; margin-right: 0.75rem; width: 18px;"></i>
+                  <span style="flex: 1; font-weight: 500;">Внутренние политики</span>
+                  <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem;">4</span>
+                </div>
+                
+                <!-- Подкатегории -->
+                <div class="tree-children" style="margin-left: 1.5rem; display: none;">
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('policies-security')">
+                    <i class="fas fa-shield-alt" style="color: #3498db; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Безопасность</span>
+                    <span class="category-badge">2</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('policies-hr')">
+                    <i class="fas fa-users" style="color: #e67e22; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">HR политики</span>
+                    <span class="category-badge">1</span>
+                  </div>
+                  <div class="tree-node level-2" style="display: flex; align-items: center; padding: 0.4rem 0;" onclick="event.stopPropagation(); openCategoryArticles('policies-ethics')">
+                    <i class="fas fa-gavel" style="color: #27ae60; margin-right: 0.75rem; width: 18px;"></i>
+                    <span style="flex: 1;">Этика</span>
+                    <span class="category-badge">1</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Дополнительная категория: Часто задаваемые вопросы (FAQ) -->
+              <div class="tree-category" data-category="faq">
+                <div class="tree-node level-1" style="display: flex; align-items: center; padding: 0.5rem 0;" onclick="openCategoryArticles('faq')">
+                  <i class="fas fa-question-circle" style="color: #3498db; margin-right: 0.75rem; width: 18px;"></i>
+                  <span style="flex: 1; font-weight: 500;">Часто задаваемые вопросы</span>
+                  <span class="category-badge" style="background: #e9ecef; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem;">9</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Дополнительные действия в сайдбаре -->
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #f0f0f0;">
+              <button class="btn btn-primary" style="width: 100%; justify-content: center;" id="new-category-btn">
+                <i class="fas fa-plus-circle"></i> Добавить категорию
+              </button>
+            </div>
+          </aside>
+          
+          <!-- ПРАВАЯ КОЛОНКА: КОНТЕНТ (статьи выбранной категории) -->
+          <main class="knowledge-content" style="flex: 1; min-width: 0;">
+            
+            <!-- Хлебные крошки -->
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #6c757d; flex-wrap: wrap;">
+              <a href="knowledge-home.html" style="color: #3498db;">
+                <i class="fas fa-home" style="margin-right: 0.25rem;"></i>Главная знаний
+              </a>
+              <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+              <a href="knowledge-base.html" style="color: #3498db;">Все категории</a>
+              <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+              <span>Отдел: <strong id="current-dept-breadcrumb">Разработка</strong></span>
+              <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+              <span id="current-category-breadcrumb" style="color: #2c3e50; font-weight: 500;">Все статьи</span>
+              
+              <!-- Кнопка быстрого возврата -->
+              <a href="knowledge-home.html" class="btn btn-secondary btn-sm" style="margin-left: auto;" title="Вернуться на главную знаний">
+                <i class="fas fa-arrow-left"></i> На главную
+              </a>
+            </div>
+            
+            <!-- Заголовок раздела с переключением вида -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <div>
+                <h2 id="content-category-title" style="font-size: 1.5rem; color: #2c3e50; margin: 0;">Все статьи</h2>
+                <p id="content-category-desc" style="color: #6c757d; margin: 0.25rem 0 0 0;">Все материалы отдела Разработка</p>
+              </div>
+              
+              <!-- Переключатели вида (плитка/список/компактный) -->
+              <div style="display: flex; gap: 0.5rem; background: #f8f9fa; padding: 0.25rem; border-radius: 8px;">
+                <button class="view-toggle-btn active" data-view="grid" style="padding: 0.5rem 1rem; border: none; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;" title="Сетка">
+                  <i class="fas fa-th-large"></i>
+                </button>
+                <button class="view-toggle-btn" data-view="list" style="padding: 0.5rem 1rem; border: none; background: transparent; border-radius: 6px; cursor: pointer;" title="Список">
+                  <i class="fas fa-list"></i>
+                </button>
+                <button class="view-toggle-btn" data-view="compact" style="padding: 0.5rem 1rem; border: none; background: transparent; border-radius: 6px; cursor: pointer;" title="Компактный">
+                  <i class="fas fa-align-justify"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Контейнер для статей с динамическим переключением вида -->
+            <div id="articles-container" class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+              <!-- Сюда будут загружаться статьи при клике на категорию -->
+              
+              <!-- Статья 1 -->
+              <div class="article-card" onclick="openArticle('article1')">
+                <div class="article-header">
+                  <div>
+                    <div class="article-title">Настройка рабочего окружения</div>
+                    <div class="article-meta">
+                      <span><i class="far fa-user"></i> Фёдоров П.А.</span>
+                    </div>
+                  </div>
+                  <div class="article-views"><i class="far fa-eye"></i> 456</div>
+                </div>
+                <div class="article-excerpt">
+                  Как настроить IDE, плагины и инструменты для эффективной работы.
+                </div>
+                <div class="article-footer">
+                  <div class="article-tags">
+                    <span class="tag">настройка</span>
+                    <span class="tag">инструменты</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Статья 2 -->
+              <div class="article-card" onclick="openArticle('article2')">
+                <div class="article-header">
+                  <div>
+                    <div class="article-title">Code review: чек-лист</div>
+                    <div class="article-meta">
+                      <span><i class="far fa-user"></i> Васильев К.И.</span>
+                    </div>
+                  </div>
+                  <div class="article-views"><i class="far fa-eye"></i> 389</div>
+                </div>
+                <div class="article-excerpt">
+                  Что проверять при code review и как оставлять полезные комментарии.
+                </div>
+                <div class="article-footer">
+                  <div class="article-tags">
+                    <span class="tag">code review</span>
+                    <span class="tag">процессы</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Статья 3 -->
+              <div class="article-card" onclick="openArticle('article3')">
+                <div class="article-header">
+                  <div>
+                    <div class="article-title">Шаблон технической документации</div>
+                    <div class="article-meta">
+                      <span><i class="far fa-user"></i> Новикова О.Л.</span>
+                    </div>
+                  </div>
+                  <div class="article-views"><i class="far fa-eye"></i> 267</div>
+                </div>
+                <div class="article-excerpt">
+                  Готовый шаблон для создания технической документации в проектах.
+                </div>
+                <div class="article-footer">
+                  <div class="article-tags">
+                    <span class="tag">документация</span>
+                    <span class="tag">шаблон</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Статья 4 -->
+              <div class="article-card" onclick="openArticle('article4')">
+                <div class="article-header">
+                  <div>
+                    <div class="article-title">Git workflow</div>
+                    <div class="article-meta">
+                      <span><i class="far fa-user"></i> Соколов Д.В.</span>
+                    </div>
+                  </div>
+                  <div class="article-views"><i class="far fa-eye"></i> 189</div>
+                </div>
+                <div class="article-excerpt">
+                  Описание процесса работы с Git: ветки, коммиты, мерж-реквесты.
+                </div>
+                <div class="article-footer">
+                  <div class="article-tags">
+                    <span class="tag">git</span>
+                    <span class="tag">процессы</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Пагинация -->
+            <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;">
+              <button class="btn btn-secondary btn-sm" disabled><i class="fas fa-chevron-left"></i></button>
+              <button class="btn btn-primary btn-sm" style="background: #3498db; color: white;">1</button>
               <button class="btn btn-secondary btn-sm">2</button>
               <button class="btn btn-secondary btn-sm">3</button>
+              <button class="btn btn-secondary btn-sm">4</button>
+              <button class="btn btn-secondary btn-sm">5</button>
               <button class="btn btn-secondary btn-sm"><i class="fas fa-chevron-right"></i></button>
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </div>
@@ -480,16 +648,17 @@
 <div class="modal" id="article-modal">
   <div class="modal-content">
     <div class="modal-header">
-      <div class="modal-title">Процедура обработки входящих заявок</div>
+      <div class="modal-title" id="modal-article-title">Процедура обработки входящих заявок</div>
       <button class="modal-close">&times;</button>
     </div>
     <div class="modal-body">
-      <div class="article-content">
+      <div class="article-content" id="modal-article-content">
         <!-- Здесь будет содержимое статьи при открытии -->
+        <p>Полное содержание статьи будет загружено здесь...</p>
       </div>
     </div>
     <div class="modal-footer">
-      <div class="article-info">
+      <div class="article-info" id="modal-article-info">
         <span><i class="far fa-user"></i> Автор: Петров А.В.</span>
         <span><i class="far fa-calendar"></i> Создано: 15.09.2025</span>
         <span><i class="far fa-edit"></i> Изменено: 18.09.2025</span>
@@ -600,8 +769,319 @@
     </div>
   </div>
 </div>
+
 <script src="assets/js/glossary.js"></script>
 <script src="assets/js/knowledge.js"></script>
+<script>
+  // Дополнительный скрипт для страницы knowledge-base.html
+  document.addEventListener('DOMContentLoaded', () => {
+    // Элементы
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+    const toggleFiltersBtn = document.getElementById('toggle-filters-btn');
+    const filtersPanel = document.getElementById('filters-panel');
+    const createArticleBtn = document.getElementById('create-article-btn');
+    const editorModal = document.getElementById('editor-modal');
+    const articleModal = document.getElementById('article-modal');
+    const modalCloses = document.querySelectorAll('.modal-close');
+    const articleAccessSelect = document.getElementById('article-access');
+    const enableNotifications = document.getElementById('enable-notifications');
 
+    // Сворачивание сайдбара
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('collapsed') ? '80px' : '240px';
+      });
+    }
+
+    // Показ/скрытие фильтров
+    if (toggleFiltersBtn && filtersPanel) {
+      toggleFiltersBtn.addEventListener('click', () => {
+        filtersPanel.classList.toggle('open');
+      });
+    }
+
+    // Закрытие модалок
+    modalCloses.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.modal').style.display = 'none';
+      });
+    });
+
+    window.addEventListener('click', e => {
+      if (e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+      }
+    });
+
+    // Открытие редактора
+    if (createArticleBtn) {
+      createArticleBtn.addEventListener('click', () => {
+        document.getElementById('article-title').value = '';
+        document.getElementById('article-content').value = '';
+        document.getElementById('article-tags').value = '';
+        document.getElementById('article-access').value = 'Публичная';
+        document.getElementById('private-groups').style.display = 'none';
+        document.getElementById('enable-notifications').checked = false;
+        document.getElementById('notification-options').style.display = 'none';
+        editorModal.style.display = 'flex';
+      });
+    }
+
+    // Приватность
+    if (articleAccessSelect) {
+      articleAccessSelect.addEventListener('change', e => {
+        document.getElementById('private-groups').style.display = 
+          (e.target.value === 'Приватная') ? 'block' : 'none';
+      });
+    }
+
+    // Уведомления
+    if (enableNotifications) {
+      enableNotifications.addEventListener('change', e => {
+        document.getElementById('notification-options').style.display = 
+          e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Сохранение черновика
+    document.getElementById('save-draft')?.addEventListener('click', () => {
+      alert('Черновик сохранён (симуляция)');
+      editorModal.style.display = 'none';
+    });
+
+    document.getElementById('publish-article')?.addEventListener('click', () => {
+      alert('Статья опубликована (симуляция)');
+      editorModal.style.display = 'none';
+    });
+
+    // Переключение отделов
+    document.querySelectorAll('.dept-switch-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.dept-switch-btn').forEach(b => {
+          b.style.background = '#f0f7ff';
+          b.style.color = '#3498db';
+        });
+        this.style.background = '#3498db';
+        this.style.color = 'white';
+        
+        // Обновляем breadcrumb
+        const deptName = this.textContent.trim();
+        document.getElementById('current-dept-breadcrumb').textContent = deptName;
+        document.getElementById('content-category-desc').textContent = `Все материалы отдела ${deptName}`;
+      });
+    });
+
+    // Получение параметров из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const articleParam = urlParams.get('article');
+    const categoryParam = urlParams.get('category');
+    const filterParam = urlParams.get('filter');
+    
+    if (articleParam) {
+      // Открыть конкретную статью
+      setTimeout(() => {
+        openArticle(articleParam);
+      }, 300);
+    } else if (categoryParam) {
+      // Открыть категорию
+      setTimeout(() => {
+        const categoryElement = document.querySelector(`[data-category="${categoryParam}"] .tree-node.level-1`);
+        if (categoryElement) {
+          categoryElement.click();
+        }
+      }, 300);
+    } else if (filterParam === 'pinned') {
+      document.getElementById('content-category-title').textContent = 'Закреплённые статьи';
+    } else if (filterParam === 'recent') {
+      document.getElementById('content-category-title').textContent = 'Недавние изменения';
+    } else if (filterParam === 'popular') {
+      document.getElementById('content-category-title').textContent = 'Популярные статьи';
+    }
+  });
+
+  // Функция открытия статьи
+  function openArticle(articleId) {
+    const modal = document.getElementById('article-modal');
+    const titleEl = document.getElementById('modal-article-title');
+    const contentEl = document.getElementById('modal-article-content');
+    const infoEl = document.getElementById('modal-article-info');
+    
+    // Здесь можно загрузить реальное содержимое статьи
+    const articles = {
+      'article1': {
+        title: 'Настройка рабочего окружения',
+        content: '<h2>Введение</h2><p>В этой статье мы рассмотрим настройку рабочего окружения для разработчика.</p><h2>Необходимые инструменты</h2><ul><li>IDE (Visual Studio Code, IntelliJ IDEA)</li><li>Git</li><li>Docker</li><li>Node.js</li></ul><h2>Пошаговая инструкция</h2><p>1. Установите IDE<br>2. Настройте плагины<br>3. Настройте Git<br>4. Установите необходимые зависимости</p>',
+        author: 'Фёдоров П.А.',
+        created: '10.09.2025',
+        updated: '15.09.2025'
+      },
+      'article2': {
+        title: 'Code review: чек-лист',
+        content: '<h2>Что проверять при code review</h2><p>Основные моменты, на которые стоит обращать внимание.</p>',
+        author: 'Васильев К.И.',
+        created: '05.09.2025',
+        updated: '12.09.2025'
+      }
+    };
+    
+    const article = articles[articleId] || {
+      title: 'Статья не найдена',
+      content: '<p>Извините, запрошенная статья не найдена.</p>',
+      author: 'Система',
+      created: '-',
+      updated: '-'
+    };
+    
+    titleEl.textContent = article.title;
+    contentEl.innerHTML = article.content;
+    infoEl.innerHTML = `
+      <span><i class="far fa-user"></i> Автор: ${article.author}</span>
+      <span><i class="far fa-calendar"></i> Создано: ${article.created}</span>
+      <span><i class="far fa-edit"></i> Изменено: ${article.updated}</span>
+    `;
+    
+    modal.style.display = 'flex';
+  }
+
+  // Функция сворачивания/разворачивания узлов дерева
+  function toggleTreeNode(element) {
+    const categoryDiv = element.closest('.tree-category');
+    const childrenDiv = categoryDiv.querySelector('.tree-children');
+    const icon = element.querySelector('.fa-chevron-right');
+    
+    if (childrenDiv) {
+      if (childrenDiv.style.display === 'none' || !childrenDiv.style.display) {
+        childrenDiv.style.display = 'block';
+        if (icon) icon.style.transform = 'rotate(90deg)';
+      } else {
+        childrenDiv.style.display = 'none';
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      }
+    }
+  }
+
+  // Развернуть всё дерево
+  document.getElementById('expand-all-tree')?.addEventListener('click', function() {
+    const allChildren = document.querySelectorAll('.tree-children');
+    const allIcons = document.querySelectorAll('.tree-node .fa-chevron-right');
+    
+    const isExpanding = allChildren[0]?.style.display !== 'block';
+    
+    allChildren.forEach(child => child.style.display = isExpanding ? 'block' : 'none');
+    allIcons.forEach(icon => icon.style.transform = isExpanding ? 'rotate(90deg)' : 'rotate(0deg)');
+    
+    this.innerHTML = isExpanding ? '<i class="fas fa-compress-alt"></i> Свернуть всё' : '<i class="fas fa-expand-alt"></i> Развернуть всё';
+  });
+
+  // Функция открытия статей категории
+  function openCategoryArticles(categoryId) {
+    // Убираем активный класс у всех узлов
+    document.querySelectorAll('.tree-node').forEach(node => {
+      node.classList.remove('active');
+    });
+    
+    // Подсвечиваем выбранный узел
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add('active');
+    }
+    
+    // Обновляем заголовок контента
+    let categoryName = 'Все статьи';
+    if (event && event.currentTarget) {
+      const nameSpan = event.currentTarget.querySelector('span:not(.category-badge)');
+      if (nameSpan) {
+        categoryName = nameSpan.textContent.trim();
+      }
+    }
+    
+    document.getElementById('content-category-title').textContent = categoryName;
+    document.getElementById('current-category-breadcrumb').textContent = categoryName;
+    
+    // Симуляция загрузки статей
+    const container = document.getElementById('articles-container');
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #6c757d;"><i class="fas fa-spinner fa-spin"></i> Загрузка статей...</div>';
+    
+    setTimeout(() => {
+      if (categoryId && categoryId.includes('procedures')) {
+        container.innerHTML = `
+          <div class="article-card" onclick="openArticle('proc1')"><div class="article-header"><div><div class="article-title">Процедура обработки заявок</div><div class="article-meta"><span><i class="far fa-user"></i> Петров А.В.</span></div></div></div><div class="article-excerpt">Полное руководство по обработке входящих заявок от клиентов.</div><div class="article-footer"><div class="article-tags"><span class="tag">процедуры</span></div></div></div>
+          <div class="article-card" onclick="openArticle('proc2')"><div class="article-header"><div><div class="article-title">Процедура code review</div><div class="article-meta"><span><i class="far fa-user"></i> Сидоров И.И.</span></div></div></div><div class="article-excerpt">Как проводить code review: правила, чек-листы и best practices.</div><div class="article-footer"><div class="article-tags"><span class="tag">code review</span></div></div></div>
+          <div class="article-card" onclick="openArticle('proc3')"><div class="article-header"><div><div class="article-title">Процедура онбординга</div><div class="article-meta"><span><i class="far fa-user"></i> Иванова М.С.</span></div></div></div><div class="article-excerpt">Введение в должность для новых сотрудников отдела.</div><div class="article-footer"><div class="article-tags"><span class="tag">онбординг</span></div></div></div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="article-card" onclick="openArticle('cat1')"><div class="article-header"><div><div class="article-title">Статьи категории ${categoryName}</div><div class="article-meta"><span><i class="far fa-user"></i> Система</span></div></div></div><div class="article-excerpt">Демонстрационные статьи для выбранной категории.</div><div class="article-footer"><div class="article-tags"><span class="tag">демо</span></div></div></div>
+          <div class="article-card" onclick="openArticle('cat2')"><div class="article-header"><div><div class="article-title">Пример второй статьи</div><div class="article-meta"><span><i class="far fa-user"></i> Тестовый пользователь</span></div></div></div><div class="article-excerpt">Описание функциональности и возможностей.</div><div class="article-footer"><div class="article-tags"><span class="tag">пример</span></div></div></div>
+        `;
+      }
+      // Применяем текущий вид отображения
+      applyCurrentView();
+    }, 500);
+  }
+
+  // Переключение вида
+  document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.view-toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.background = 'transparent';
+      });
+      this.classList.add('active');
+      this.style.background = 'white';
+      
+      const viewMode = this.dataset.view;
+      const container = document.getElementById('articles-container');
+      
+      container.classList.remove('list-view', 'compact-view');
+      
+      if (viewMode === 'grid') {
+        container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+      } else if (viewMode === 'list') {
+        container.classList.add('list-view');
+        container.style.gridTemplateColumns = '1fr';
+      } else if (viewMode === 'compact') {
+        container.classList.add('compact-view');
+        container.style.gridTemplateColumns = '1fr';
+      }
+      
+      // Сохраняем в localStorage
+      localStorage.setItem('knowledgeView', viewMode);
+    });
+  });
+
+  // Восстанавливаем сохранённый вид
+  function applyCurrentView() {
+    const savedView = localStorage.getItem('knowledgeView') || 'grid';
+    const activeBtn = document.querySelector(`.view-toggle-btn[data-view="${savedView}"]`);
+    if (activeBtn) {
+      activeBtn.click();
+    }
+  }
+
+  // Поиск по категориям
+  document.getElementById('category-search')?.addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const categories = document.querySelectorAll('.tree-category');
+    
+    categories.forEach(cat => {
+      const catText = cat.textContent.toLowerCase();
+      if (catText.includes(searchTerm) || searchTerm === '') {
+        cat.style.display = 'block';
+        if (searchTerm !== '') {
+          const children = cat.querySelector('.tree-children');
+          const icon = cat.querySelector('.fa-chevron-right');
+          if (children) {
+            children.style.display = 'block';
+            if (icon) icon.style.transform = 'rotate(90deg)';
+          }
+        }
+      } else {
+        cat.style.display = 'none';
+      }
+    });
+  });
+</script>
 </body>
 </html>

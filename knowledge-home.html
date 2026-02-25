@@ -104,6 +104,7 @@
       border-radius: 8px;
       color: #495057;
       transition: all 0.2s;
+      cursor: pointer;
     }
 
     .quick-action-btn:hover {
@@ -190,12 +191,55 @@
         grid-template-columns: 1fr;
       }
     }
+    
+    .nav-tabs {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border: 1px solid #e9ecef;
+      overflow: hidden;
+      display: flex;
+    }
+    
+    .nav-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      background: #f8f9fa;
+      color: #6c757d;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .nav-tab.active {
+      background: #3498db;
+      color: white;
+    }
+    
+    .nav-tab:hover:not(.active) {
+      background: #e9ecef;
+    }
+    
+    .knowledge-base-link {
+      margin: 2rem 0;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 16px;
+    }
+    
+    .knowledge-base-link .btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    }
   </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- Сайдбар (такой же, как в knowledge-base.html) -->
+  <!-- Сайдбар -->
   <aside class="sidebar" id="sidebar">
     <button class="toggle-sidebar-btn" title="Свернуть/развернуть">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -209,7 +253,7 @@
     </div>
 
     <nav class="mt-6">
-      <a href="#" class="nav-item">
+      <a href="index.html" class="nav-item">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
@@ -232,7 +276,7 @@
         <span class="nav-label">База знаний</span>
       </a>
 
-      <a href="tasks.html" class="nav-item">
+      <a href="#" class="nav-item">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 11l3 3L22 4"/>
           <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
@@ -240,7 +284,7 @@
         <span class="nav-label">Задачи</span>
       </a>
 
-      <a href="billing.html" class="nav-item">
+      <a href="#" class="nav-item">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="2" y="4" width="20" height="16" rx="2"/>
           <path d="M7 15h1M7 11h1M16 15h1M16 11h1"/>
@@ -284,24 +328,35 @@
       </div>
     </header>
 
+    <!-- Навигационные вкладки -->
+    <div class="nav-tabs">
+      <a href="knowledge-home.html" class="nav-tab active">
+        <i class="fas fa-chart-pie" style="margin-right: 0.5rem;"></i> Обзор
+      </a>
+      <a href="knowledge-base.html" class="nav-tab">
+        <i class="fas fa-sitemap" style="margin-right: 0.5rem;"></i> Категории и статьи
+      </a>
+    </div>
+
     <div class="content-area">
       <div id="knowledge-home" class="module-section active">
-<!-- Панель быстрого переключения отделов -->
-<div style="background: white; border-radius: 16px; padding: 1rem 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-  <div style="display: flex; align-items: center; gap: 1.5rem;">
-    <span style="font-weight: 600; color: #2c3e50;">🏢 Отдел:</span>
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <button class="dept-switch-btn active" data-dept="development" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#3498db; color:white; font-weight:500; cursor:pointer;">Разработка</button>
-      <button class="dept-switch-btn" data-dept="sales" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Продажи</button>
-      <button class="dept-switch-btn" data-dept="support" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Поддержка</button>
-      <button class="dept-switch-btn" data-dept="hr" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">HR</button>
-      <button class="dept-switch-btn" data-dept="marketing" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Маркетинг</button>
-    </div>
-  </div>
-  <div style="color:#6c757d; font-size:0.9rem;">
-    <i class="fas fa-sync-alt"></i> Обновлено сегодня
-  </div>
-</div>
+        <!-- Панель быстрого переключения отделов -->
+        <div style="background: white; border-radius: 16px; padding: 1rem 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-weight: 600; color: #2c3e50;">🏢 Отдел:</span>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="dept-switch-btn active" data-dept="development" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#3498db; color:white; font-weight:500; cursor:pointer;">Разработка</button>
+              <button class="dept-switch-btn" data-dept="sales" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Продажи</button>
+              <button class="dept-switch-btn" data-dept="support" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Поддержка</button>
+              <button class="dept-switch-btn" data-dept="hr" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">HR</button>
+              <button class="dept-switch-btn" data-dept="marketing" style="padding:0.5rem 1.2rem; border:none; border-radius:30px; background:#f0f7ff; color:#3498db; font-weight:500; cursor:pointer;">Маркетинг</button>
+            </div>
+          </div>
+          <div style="color:#6c757d; font-size:0.9rem;">
+            <i class="fas fa-sync-alt"></i> Обновлено сегодня
+          </div>
+        </div>
+        
         <!-- Приветственный блок для отдела -->
         <div class="welcome-card">
           <div>
@@ -317,7 +372,43 @@
             </button>
           </div>
         </div>
-
+        
+        <!-- Поиск + фильтры -->
+        <div class="search-container">
+          <div class="search-box">
+            <input type="text" id="search-input" placeholder="Поиск по базе знаний...">
+            <div class="search-icon"><i class="fas fa-search"></i></div>
+          </div>
+          <button id="btn-toggle-filters" class="quick-action-btn">
+            <i class="fas fa-filter"></i> Фильтры
+          </button>
+        </div>
+        
+        <div class="filters" id="filters-panel">
+          <select class="filter-select">
+            <option>Все категории</option>
+            <option>Процедуры</option>
+            <option>Техническая база</option>
+            <option>Документация</option>
+            <option>Внутренние политики</option>
+            <option>Частые вопросы</option>
+          </select>
+          <select class="filter-select">
+            <option>Сначала новые</option>
+            <option>Сначала старые</option>
+            <option>По популярности</option>
+            <option>По релевантности</option>
+          </select>
+          <select class="filter-select">
+            <option>Все статусы</option>
+            <option>Опубликовано</option>
+            <option>Черновик</option>
+            <option>На проверке</option>
+          </select>
+          <button class="quick-action-btn primary">Применить</button>
+          <button class="quick-action-btn">Сброс</button>
+        </div>
+        
         <!-- Статистика отдела -->
         <div class="stats-grid">
           <div class="stat-card">
@@ -368,7 +459,7 @@
             </div>
             <div class="articles-grid" style="grid-template-columns: 1fr;">
               <!-- Карточка закреплённой статьи -->
-              <div class="article-card pinned" style="border-top-color: #e67e22;">
+              <div class="article-card pinned" style="border-top-color: #e67e22; cursor: pointer;" onclick="location.href='knowledge-base.html?article=standards'">
                 <div class="article-header">
                   <div>
                     <div class="article-title">📌 Стандарты кода для backend-разработки</div>
@@ -391,7 +482,7 @@
               </div>
 
               <!-- Ещё одна закреплённая статья -->
-              <div class="article-card pinned" style="border-top-color: #e67e22;">
+              <div class="article-card pinned" style="border-top-color: #e67e22; cursor: pointer;" onclick="location.href='knowledge-base.html?article=deploy'">
                 <div class="article-header">
                   <div>
                     <div class="article-title">📌 Инструкция по деплою в production</div>
@@ -419,48 +510,48 @@
           <div>
             <div class="section-header">
               <h3><i class="fas fa-history" style="color: #3498db; margin-right: 0.5rem;"></i> Последние изменения</h3>
-              <a href="#" class="text-primary">Вся активность →</a>
+              <a href="knowledge-base.html?filter=recent" class="text-primary">Вся активность →</a>
             </div>
             <div class="activity-list">
-              <div class="activity-item">
+              <div class="activity-item" onclick="location.href='knowledge-base.html?article=zayavki'" style="cursor: pointer;">
                 <div class="activity-icon">
                   <i class="fas fa-pen"></i>
                 </div>
                 <div class="activity-content">
-                  <p><strong>Иванов И.И.</strong> обновил статью <a href="#">"Процедура обработки заявок"</a></p>
+                  <p><strong>Иванов И.И.</strong> обновил статью <a href="knowledge-base.html?article=zayavki" onclick="event.stopPropagation()">"Процедура обработки заявок"</a></p>
                   <div class="activity-time">2 часа назад</div>
                 </div>
                 <span class="department-badge">Поддержка</span>
               </div>
 
-              <div class="activity-item">
+              <div class="activity-item" onclick="location.href='knowledge-base.html?article=git'" style="cursor: pointer;">
                 <div class="activity-icon">
                   <i class="fas fa-plus-circle"></i>
                 </div>
                 <div class="activity-content">
-                  <p><strong>Петрова М.С.</strong> создал(а) новую статью <a href="#">"Как работать с Git"</a></p>
+                  <p><strong>Петрова М.С.</strong> создал(а) новую статью <a href="knowledge-base.html?article=git" onclick="event.stopPropagation()">"Как работать с Git"</a></p>
                   <div class="activity-time">Вчера, 15:42</div>
                 </div>
                 <span class="department-badge">Разработка</span>
               </div>
 
-              <div class="activity-item">
+              <div class="activity-item" onclick="location.href='knowledge-base.html?article=security'" style="cursor: pointer;">
                 <div class="activity-icon">
                   <i class="fas fa-comment"></i>
                 </div>
                 <div class="activity-content">
-                  <p><strong>Сидоров А.В.</strong> оставил комментарий к статье <a href="#">"Политика безопасности"</a></p>
+                  <p><strong>Сидоров А.В.</strong> оставил комментарий к статье <a href="knowledge-base.html?article=security" onclick="event.stopPropagation()">"Политика безопасности"</a></p>
                   <div class="activity-time">Вчера, 11:20</div>
                 </div>
                 <span class="department-badge">HR</span>
               </div>
 
-              <div class="activity-item">
+              <div class="activity-item" onclick="location.href='knowledge-base.html?article=onboarding'" style="cursor: pointer;">
                 <div class="activity-icon">
                   <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="activity-content">
-                  <p>Статья <a href="#">"Инструкция для новых сотрудников"</a> прошла проверку</p>
+                  <p>Статья <a href="knowledge-base.html?article=onboarding" onclick="event.stopPropagation()">"Инструкция для новых сотрудников"</a> прошла проверку</p>
                   <div class="activity-time">2 дня назад</div>
                 </div>
                 <span class="department-badge">HR</span>
@@ -469,14 +560,14 @@
           </div>
         </div>
 
-        <!-- Популярные статьи (ещё один ряд) -->
+        <!-- Популярные статьи -->
         <div class="section-header">
           <h3><i class="fas fa-fire" style="color: #e74c3c; margin-right: 0.5rem;"></i> Популярное в вашем отделе</h3>
           <a href="knowledge-base.html?filter=popular" class="text-primary">Все популярные →</a>
         </div>
         <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
           <!-- Карточка популярной статьи 1 -->
-          <div class="article-card">
+          <div class="article-card" style="cursor: pointer;" onclick="location.href='knowledge-base.html?article=setup'">
             <div class="article-header">
               <div>
                 <div class="article-title">Настройка рабочего окружения</div>
@@ -498,7 +589,7 @@
           </div>
 
           <!-- Карточка популярной статьи 2 -->
-          <div class="article-card">
+          <div class="article-card" style="cursor: pointer;" onclick="location.href='knowledge-base.html?article=code-review'">
             <div class="article-header">
               <div>
                 <div class="article-title">Code review: чек-лист</div>
@@ -520,7 +611,7 @@
           </div>
 
           <!-- Карточка популярной статьи 3 -->
-          <div class="article-card">
+          <div class="article-card" style="cursor: pointer;" onclick="location.href='knowledge-base.html?article=template'">
             <div class="article-header">
               <div>
                 <div class="article-title">Шаблон технической документации</div>
@@ -541,349 +632,123 @@
             </div>
           </div>
         </div>
-<!-- После блока "Популярное в вашем отделе" добавьте этот код -->
 
-<!-- Все статьи отдела с категориями -->
-<div class="section-header" style="margin-top: 3rem;">
-  <h3><i class="fas fa-folder-open" style="color: #3498db; margin-right: 0.5rem;"></i> Все статьи отдела <span id="current-dept-name">Разработка</span></h3>
-  <div style="display: flex; gap: 0.5rem;">
-    <button class="btn btn-secondary btn-sm" id="expand-all-categories">
-      <i class="fas fa-expand-alt"></i> Развернуть всё
-    </button>
-    <a href="knowledge-base.html?dept=development" class="btn btn-primary btn-sm">
-      <i class="fas fa-th-large"></i> Полный каталог
-    </a>
-  </div>
-</div>
+        <!-- Блок-призыв к переходу в полную базу знаний -->
+        <div class="knowledge-base-link">
+          <h3 style="margin-bottom: 1rem; color: #2c3e50;">Хотите увидеть все статьи?</h3>
+          <p style="margin-bottom: 1.5rem; color: #6c757d;">Перейдите в полную базу знаний с удобной навигацией по категориям</p>
+          <a href="knowledge-base.html" class="btn btn-primary">
+            <i class="fas fa-folder-open" style="margin-right: 0.5rem;"></i>
+            Перейти к полной базе знаний
+          </a>
+        </div>
 
-<!-- Категории отдела с превью статей -->
-<div class="department-categories">
-  <!-- Категория: Процедуры -->
-  <div class="category-section" data-category="procedures">
-    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
-        <h4 style="margin: 0; font-size: 1.1rem;">Процедуры</h4>
-        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">8 статей</span>
-      </div>
-      <a href="knowledge-base.html?category=procedures&dept=development" class="text-primary" style="font-size: 0.9rem;">Все процедуры →</a>
-    </div>
-    
-    <!-- Превью статей в категории (скрыто по умолчанию) -->
-    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
-      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
-        <!-- Статья 1 -->
-        <div class="article-card" style="border-top-color: #3498db;">
-          <div class="article-header">
-            <div>
-              <div class="article-title">Процедура обработки заявок</div>
-              <div class="article-meta">
-                <span><i class="far fa-user"></i> Петров А.В.</span>
-                <span><i class="far fa-calendar"></i> 15.09.2025</span>
+        <!-- Модальное окно редактора статьи -->
+        <div class="modal" id="editor-modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-title">Редактор статьи</div>
+              <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="article-title">Заголовок статьи</label>
+                <input type="text" id="article-title">
+              </div>
+
+              <div class="form-group">
+                <label for="article-category">Категория</label>
+                <select id="article-category">
+                  <option>Процедуры</option>
+                  <option>Техническая база</option>
+                  <option>Документация</option>
+                  <option>Внутренние политики</option>
+                  <option>Частые вопросы</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="article-tags">Теги (через запятую)</label>
+                <input type="text" id="article-tags">
+              </div>
+
+              <div class="form-group">
+                <label for="article-status">Статус</label>
+                <select id="article-status">
+                  <option>Черновик</option>
+                  <option>На проверке</option>
+                  <option>Опубликовано</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Доступность</label>
+                <select id="article-access">
+                  <option>Публичная</option>
+                  <option>Приватная</option>
+                </select>
+                <div id="private-groups" style="display:none; margin-top:10px;">
+                  <label>Группы пользователей (выберите несколько):</label>
+                  <select multiple id="article-groups">
+                    <option>Администраторы</option>
+                    <option>Менеджеры</option>
+                    <option>Сотрудники</option>
+                    <option>Все пользователи</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="enable-notifications"> 
+                  Включить уведомления об обновлении статьи
+                </label>
+                <div id="notification-options" style="display:none; margin-top:10px;">
+                  <label>Каналы уведомлений:</label><br>
+                  <label><input type="checkbox" value="dashboard"> Дашборд платформы</label><br>
+                  <label><input type="checkbox" value="bell"> Системные уведомления</label><br>
+                  <label><input type="checkbox" value="email"> Email-рассылка</label><br>
+                  <label><input type="checkbox" value="messenger"> Мессенджер (бот)</label>
+                </div>
+              </div>
+
+              <div class="form-group" id="glossary-admin-section">
+                <label>Настройки глоссария (JSON)</label>
+                <textarea id="glossary-json" rows="10"></textarea>
+                <button class="btn btn-primary" id="save-glossary-btn">Сохранить настройки глоссария</button>
+              </div>
+
+              <div class="editor-container">
+                <div class="editor-toolbar">
+                  <button title="Жирный"><i class="fas fa-bold"></i></button>
+                  <button title="Курсив"><i class="fas fa-italic"></i></button>
+                  <button title="Подчёркнутый"><i class="fas fa-underline"></i></button>
+                  <button title="Список"><i class="fas fa-list-ul"></i></button>
+                  <button title="Нумерованный список"><i class="fas fa-list-ol"></i></button>
+                  <button title="Ссылка"><i class="fas fa-link"></i></button>
+                  <button title="Изображение"><i class="fas fa-image"></i></button>
+                </div>
+                <div class="editor-area">
+                  <textarea id="article-content"></textarea>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="article-excerpt">
-            Полное руководство по обработке входящих заявок от клиентов.
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              <span class="tag">процедуры</span>
-              <span class="tag">заявки</span>
-            </div>
-            <span class="status approved">Опубликовано</span>
-          </div>
-        </div>
-        
-        <!-- Статья 2 -->
-        <div class="article-card" style="border-top-color: #3498db;">
-          <div class="article-header">
-            <div>
-              <div class="article-title">Процедура code review</div>
-              <div class="article-meta">
-                <span><i class="far fa-user"></i> Сидоров И.И.</span>
-                <span><i class="far fa-calendar"></i> 10.09.2025</span>
-              </div>
-            </div>
-          </div>
-          <div class="article-excerpt">
-            Как проводить code review: правила, чек-листы и best practices.
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              <span class="tag">процедуры</span>
-              <span class="tag">code review</span>
-            </div>
-            <span class="status approved">Опубликовано</span>
-          </div>
-        </div>
-      </div>
-      <div style="text-align: right;">
-        <a href="knowledge-base.html?category=procedures&dept=development" class="text-primary">Показать ещё 6 статей →</a>
-      </div>
-    </div>
-  </div>
 
-  <!-- Категория: Техническая база -->
-  <div class="category-section" data-category="technical">
-    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
-        <h4 style="margin: 0; font-size: 1.1rem;">Техническая база</h4>
-        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">12 статей</span>
-      </div>
-      <a href="knowledge-base.html?category=technical&dept=development" class="text-primary" style="font-size: 0.9rem;">Все материалы →</a>
-    </div>
-    
-    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
-      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
-        <!-- Статья 1 -->
-        <div class="article-card" style="border-top-color: #3498db;">
-          <div class="article-header">
-            <div>
-              <div class="article-title">Архитектура микросервисов</div>
-              <div class="article-meta">
-                <span><i class="far fa-user"></i> Фёдоров П.А.</span>
-                <span><i class="far fa-calendar"></i> 05.09.2025</span>
-              </div>
-            </div>
-          </div>
-          <div class="article-excerpt">
-            Принципы построения микросервисной архитектуры и паттерны взаимодействия.
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              <span class="tag">архитектура</span>
-              <span class="tag">микросервисы</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Статья 2 -->
-        <div class="article-card" style="border-top-color: #3498db;">
-          <div class="article-header">
-            <div>
-              <div class="article-title">База данных: оптимизация запросов</div>
-              <div class="article-meta">
-                <span><i class="far fa-user"></i> Васильев К.И.</span>
-                <span><i class="far fa-calendar"></i> 01.09.2025</span>
-              </div>
-            </div>
-          </div>
-          <div class="article-excerpt">
-            Как писать эффективные SQL-запросы и оптимизировать работу с БД.
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              <span class="tag">базы данных</span>
-              <span class="tag">sql</span>
+            <div class="modal-footer">
+              <button class="btn btn-secondary"><i class="fas fa-times"></i> Отменить</button>
+              <button class="btn btn-secondary" id="save-draft"><i class="far fa-save"></i> Сохранить черновик</button>
+              <button class="btn btn-primary" id="publish-article"><i class="fas fa-check"></i> Опубликовать</button>
             </div>
           </div>
         </div>
       </div>
-      <div style="text-align: right;">
-        <a href="knowledge-base.html?category=technical&dept=development" class="text-primary">Показать ещё 10 статей →</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Категория: Документация -->
-  <div class="category-section" data-category="docs">
-    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
-        <h4 style="margin: 0; font-size: 1.1rem;">Документация</h4>
-        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">6 статей</span>
-      </div>
-      <a href="knowledge-base.html?category=docs&dept=development" class="text-primary" style="font-size: 0.9rem;">Все документы →</a>
-    </div>
-    
-    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
-      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
-        <!-- Статья 1 -->
-        <div class="article-card" style="border-top-color: #3498db;">
-          <div class="article-header">
-            <div>
-              <div class="article-title">API документация</div>
-              <div class="article-meta">
-                <span><i class="far fa-user"></i> Новикова О.Л.</span>
-                <span><i class="far fa-calendar"></i> 20.08.2025</span>
-              </div>
-            </div>
-          </div>
-          <div class="article-excerpt">
-            Полная документация по REST API для внешних интеграций.
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              <span class="tag">api</span>
-              <span class="tag">интеграция</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="text-align: right;">
-        <a href="knowledge-base.html?category=docs&dept=development" class="text-primary">Показать ещё 4 статьи →</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Категория: Внутренние политики -->
-  <div class="category-section" data-category="policies">
-    <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <i class="fas fa-chevron-right" style="transition: transform 0.2s; color: #6c757d;"></i>
-        <h4 style="margin: 0; font-size: 1.1rem;">Внутренние политики</h4>
-        <span class="category-count" style="background: #e9ecef; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">4 статьи</span>
-      </div>
-      <a href="knowledge-base.html?category=policies&dept=development" class="text-primary" style="font-size: 0.9rem;">Все политики →</a>
-    </div>
-    
-    <div class="category-preview" style="display: none; margin-bottom: 2rem;">
-      <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 1rem;">
-        <!-- Статья 1 -->
-        <div class="article-card" style="border-top-color: #3498db;">
-          <div class="article-header">
-            <div>
-              <div class="article-title">Политика безопасности</div>
-              <div class="article-meta">
-                <span><i class="far fa-user"></i> Смирнов А.А.</span>
-                <span><i class="far fa-calendar"></i> 15.08.2025</span>
-              </div>
-            </div>
-          </div>
-          <div class="article-excerpt">
-            Правила безопасности при работе с кодом и доступом к системам.
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              <span class="tag">безопасность</span>
-              <span class="tag">политики</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="text-align: right;">
-        <a href="knowledge-base.html?category=policies&dept=development" class="text-primary">Показать ещё 2 статьи →</a>
-      </div>
-    </div>
-  </div>
-</div>
-        <!-- Быстрый переход к поиску -->
-        <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-top: 2rem; text-align: center;">
-          <h4 style="margin-bottom: 1rem;">Не нашли, что искали?</h4>
-          <div style="display: flex; gap: 1rem; max-width: 600px; margin: 0 auto;">
-            <input type="text" placeholder="Поиск по всей базе знаний..." style="flex: 1; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 8px;">
-            <button class="btn btn-primary" onclick="window.location.href='knowledge-base.html'">Перейти к поиску</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Модальное окно редактора статьи (то же, что в knowledge-base.html) -->
-<div class="modal" id="editor-modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-title">Редактор статьи</div>
-      <button class="modal-close">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label for="article-title">Заголовок статьи</label>
-        <input type="text" id="article-title">
-      </div>
-
-      <div class="form-group">
-        <label for="article-category">Категория</label>
-        <select id="article-category">
-          <option>Процедуры</option>
-          <option>Техническая база</option>
-          <option>Документация</option>
-          <option>Внутренние политики</option>
-          <option>Частые вопросы</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="article-tags">Теги (через запятую)</label>
-        <input type="text" id="article-tags">
-      </div>
-
-      <div class="form-group">
-        <label for="article-status">Статус</label>
-        <select id="article-status">
-          <option>Черновик</option>
-          <option>На проверке</option>
-          <option>Опубликовано</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Доступность</label>
-        <select id="article-access">
-          <option>Публичная</option>
-          <option>Приватная</option>
-        </select>
-        <div id="private-groups" style="display:none; margin-top:10px;">
-          <label>Группы пользователей (выберите несколько):</label>
-          <select multiple id="article-groups">
-            <option>Администраторы</option>
-            <option>Менеджеры</option>
-            <option>Сотрудники</option>
-            <option>Все пользователи</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input type="checkbox" id="enable-notifications"> 
-          Включить уведомления об обновлении статьи
-        </label>
-        <div id="notification-options" style="display:none; margin-top:10px;">
-          <label>Каналы уведомлений:</label><br>
-          <label><input type="checkbox" value="dashboard"> Дашборд платформы</label><br>
-          <label><input type="checkbox" value="bell"> Системные уведомления</label><br>
-          <label><input type="checkbox" value="email"> Email-рассылка</label><br>
-          <label><input type="checkbox" value="messenger"> Мессенджер (бот)</label>
-        </div>
-      </div>
-
-      <div class="form-group" id="glossary-admin-section">
-        <label>Настройки глоссария (JSON)</label>
-        <textarea id="glossary-json" rows="10"></textarea>
-        <button class="btn btn-primary" id="save-glossary-btn">Сохранить настройки глоссария</button>
-      </div>
-
-      <div class="editor-container">
-        <div class="editor-toolbar">
-          <button title="Жирный"><i class="fas fa-bold"></i></button>
-          <button title="Курсив"><i class="fas fa-italic"></i></button>
-          <button title="Подчёркнутый"><i class="fas fa-underline"></i></button>
-          <button title="Список"><i class="fas fa-list-ul"></i></button>
-          <button title="Нумерованный список"><i class="fas fa-list-ol"></i></button>
-          <button title="Ссылка"><i class="fas fa-link"></i></button>
-          <button title="Изображение"><i class="fas fa-image"></i></button>
-        </div>
-        <div class="editor-area">
-          <textarea id="article-content"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button class="btn btn-secondary"><i class="fas fa-times"></i> Отменить</button>
-      <button class="btn btn-secondary" id="save-draft"><i class="far fa-save"></i> Сохранить черновик</button>
-      <button class="btn btn-primary" id="publish-article"><i class="fas fa-check"></i> Опубликовать</button>
     </div>
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Копипаста нужных функций из knowledge.js для модалок и сайдбара
+    // Элементы
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.querySelector('.toggle-sidebar-btn');
     const modalCloses = document.querySelectorAll('.modal-close');
@@ -891,12 +756,21 @@
     const createArticleBtn = document.getElementById('home-create-article');
     const articleAccessSelect = document.getElementById('article-access');
     const enableNotifications = document.getElementById('enable-notifications');
+    const toggleFiltersBtn = document.getElementById('btn-toggle-filters');
+    const filtersPanel = document.getElementById('filters-panel');
 
     // Сворачивание сайдбара
     if (toggleBtn) {
       toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
         document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('collapsed') ? '80px' : '240px';
+      });
+    }
+
+    // Показ/скрытие фильтров
+    if (toggleFiltersBtn && filtersPanel) {
+      toggleFiltersBtn.addEventListener('click', () => {
+        filtersPanel.classList.toggle('open');
       });
     }
 
@@ -953,64 +827,22 @@
       alert('Статья опубликована (симуляция)');
       editorModal.style.display = 'none';
     });
-    // Переключение категорий (сворачивание/разворачивание)
-document.querySelectorAll('.category-header').forEach(header => {
-  header.addEventListener('click', function(e) {
-    // Не срабатывать при клике на ссылку
-    if (e.target.tagName === 'A' || e.target.closest('a')) return;
     
-    const section = this.closest('.category-section');
-    const preview = section.querySelector('.category-preview');
-    const icon = this.querySelector('.fa-chevron-right');
-    
-    if (preview.style.display === 'none') {
-      preview.style.display = 'block';
-      icon.style.transform = 'rotate(90deg)';
-    } else {
-      preview.style.display = 'none';
-      icon.style.transform = 'rotate(0deg)';
-    }
-  });
-});
-
-// Кнопка "Развернуть всё"
-document.getElementById('expand-all-categories').addEventListener('click', function() {
-  const isExpanding = this.textContent.includes('Развернуть всё');
-  
-  document.querySelectorAll('.category-section').forEach(section => {
-    const preview = section.querySelector('.category-preview');
-    const icon = section.querySelector('.fa-chevron-right');
-    
-    if (isExpanding) {
-      preview.style.display = 'block';
-      icon.style.transform = 'rotate(90deg)';
-      this.innerHTML = '<i class="fas fa-compress-alt"></i> Свернуть всё';
-    } else {
-      preview.style.display = 'none';
-      icon.style.transform = 'rotate(0deg)';
-      this.innerHTML = '<i class="fas fa-expand-alt"></i> Развернуть всё';
-    }
-  });
-});
-
-// Обновление названия отдела в заголовке при переключении
-function updateDepartmentName(dept) {
-  const deptNames = {
-    'development': 'Разработка',
-    'sales': 'Продажи',
-    'support': 'Поддержка',
-    'hr': 'HR',
-    'marketing': 'Маркетинг'
-  };
-  document.getElementById('current-dept-name').textContent = deptNames[dept];
-  
-  // Обновляем ссылки в категориях
-  document.querySelectorAll('.category-section a[href*="knowledge-base.html"]').forEach(link => {
-    const href = link.getAttribute('href');
-    // Обновляем параметр dept в ссылке
-    link.setAttribute('href', href.replace(/dept=\w+/, `dept=${dept}`));
-  });
-}
+    // Переключение отделов
+    document.querySelectorAll('.dept-switch-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.dept-switch-btn').forEach(b => {
+          b.style.background = '#f0f7ff';
+          b.style.color = '#3498db';
+        });
+        this.style.background = '#3498db';
+        this.style.color = 'white';
+        
+        // Обновляем приветствие
+        const deptName = this.textContent.trim();
+        document.querySelector('.welcome-card p').innerHTML = `Вы в отделе <strong>${deptName}</strong>. Вот что происходит в вашем отделе сегодня.`;
+      });
+    });
   });
 </script>
 </body>
